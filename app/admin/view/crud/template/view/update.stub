@@ -1,0 +1,12 @@
+<div class="wrapper wrapper-content animated fadeInRight">
+    <form class="form-horizontal m" id="hr-form" data-ref="{%className%}">
+        <input  type="hidden" name="id" value="{$model.id}"/>
+        {%form%}
+    </form>
+</div>
+{include file="public/form" /}
+
+
+
+
+

@@ -1,0 +1,77 @@
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+    <form class="form-horizontal m" id="hr-form" data-ref="merchantUser">
+        <input  type="hidden" name="id" value="{$model.id}"/>
+            <div class="form-group">
+       <label  class="col-sm-3 control-label is-required" >商户ID</label>
+        <div class="col-sm-8">
+           <input  type="text" id="merchant_id" class="form-control " placeholder="请输入商户ID" name="merchant_id" value="{$model.merchant_id}" required />
+        </div>
+    </div>
+    <div class="form-group">
+       <label  class="col-sm-3 control-label is-required" >登入账号</label>
+        <div class="col-sm-8">
+           <input  type="text" id="username" class="form-control " placeholder="请输入登入账号" name="username" value="{$model.username}" required />
+        </div>
+    </div>
+    <div class="form-group">
+       <label  class="col-sm-3 control-label is-required" >登录密码</label>
+        <div class="col-sm-8">
+           <input  type="text" id="password" class="form-control " placeholder="请输入登录密码" name="password" value="{$model.password}" required />
+        </div>
+    </div>
+    <div class="form-group">
+       <label  class="col-sm-3 control-label " >密码盐</label>
+        <div class="col-sm-8">
+           <input  type="text" id="salt" class="form-control " placeholder="请输入密码盐" name="salt" value="{$model.salt}"  />
+        </div>
+    </div>
+    <div class="form-group">
+       <label  class="col-sm-3 control-label " >身份标识</label>
+        <div class="col-sm-8">
+           <input  type="text" id="token" class="form-control " placeholder="请输入身份标识" name="token" value="{$model.token}"  />
+        </div>
+    </div>
+    <div class="form-group">
+       <label  class="col-sm-3 control-label " >角色id</label>
+        <div class="col-sm-8">
+           <input  type="text" id="role_id" class="form-control " placeholder="请输入角色id" name="role_id" value="{$model.role_id}"  />
+        </div>
+    </div>
+    <div class="form-group">
+       <label  class="col-sm-3 control-label " >最后登录时间</label>
+        <div class="col-sm-8">
+           <input  type="text" id="last_login_time" class="form-control " placeholder="请输入最后登录时间" name="last_login_time" value="{$model.last_login_time}"  />
+        </div>
+    </div>
+    <div class="form-group">
+       <label  class="col-sm-3 control-label " >最后登录IP</label>
+        <div class="col-sm-8">
+           <input  type="text" id="last_login_ip" class="form-control " placeholder="请输入最后登录IP" name="last_login_ip" value="{$model.last_login_ip}"  />
+        </div>
+    </div>
+    <div class="form-group">
+       <label  class="col-sm-3 control-label " >登录失败次数</label>
+        <div class="col-sm-8">
+           <input  type="text" id="fail_times" class="form-control " placeholder="请输入登录失败次数" name="fail_times" value="{$model.fail_times}"  />
+        </div>
+    </div>
+    <div class="form-group">
+       <label  class="col-sm-3 control-label is-required" >状态</label>
+        <div class="col-sm-8">
+           {volist name=":get_dict('sys_normal_disable')" id="dict"}
+<div class="radio-box">
+    <input type="radio" id="status_{$dict.dict_value}" name="status" value="{$dict.dict_value}" {$dict.dict_value == $model.status ? "checked" : ""}>
+    <label for="status_{$dict.dict_value}" >{$dict.dict_label}</label>
+</div>
+{/volist}
+        </div>
+    </div>
+
+    </form>
+</div>
+{include file="public/form" /}
+
+
+
+
+

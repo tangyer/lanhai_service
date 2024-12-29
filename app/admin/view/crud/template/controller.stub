@@ -1,0 +1,10 @@
+<?php
+declare (strict_types = 1);
+
+namespace {%namespace%};
+use app\common\traits\{%App%}Action;
+
+class {%className%} extends Base
+{
+    use {%App%}Action;
+}

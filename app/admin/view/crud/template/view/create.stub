@@ -1,0 +1,7 @@
+<div class="wrapper wrapper-content animated fadeInRight ">
+    <form class="form-horizontal m" id="hr-form" data-ref="{%className%}">
+         {%form%}
+    </form>
+</div>
+{include file="public/form"/}
+

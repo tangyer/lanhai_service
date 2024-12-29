@@ -1,0 +1,10 @@
+<?php
+declare (strict_types = 1);
+
+namespace {%namespace%};
+use app\common\logic\BaseLogic;
+
+class {%className%} extends BaseLogic
+{
+
+}

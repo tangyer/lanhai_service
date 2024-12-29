@@ -1,0 +1,64 @@
+<!-- Main content -->
+<section class="content">
+     <div class="panel panel-primary panel-intro" style="width: 75%;margin: 0 auto" >
+        <div class="panel-heading">
+         详细信息
+        </div>
+        <div class="panel-body">
+            <form class="form-horizontal">
+                <div class="form-group row">
+                    <label class="col-sm-3 control-label" >工单编号</label>
+                    <div class="col-sm-6">
+                        <p class="form-control-plaintext">{$model.order_code}</p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 control-label" >短链平台</label>
+                    <div class="col-sm-6">
+                        <p class="form-control-plaintext">{$model.link_type}</p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 control-label" >短链接</label>
+                    <div class="col-sm-6">
+                        <p class="form-control-plaintext">{$model.short_link}</p>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-3 control-label" >分配模式</label>
+                    <div class="col-sm-6">
+                        <p class="form-control-plaintext">分配在线帐号</p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 control-label" >点击数</label>
+                    <div class="col-sm-6">
+                        <p class="form-control-plaintext">{$model.click_num}</p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 control-label" >状态</label>
+                    <div class="col-sm-6">
+                        <p class="form-control-plaintext">{:get_dict_label('sys_normal_disable',$model.status)}</p>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-top: 20px !important;">
+                    <div class="col-sm-offset-5 col-sm-6">
+                        <a type="button" class="btn btn-sm btn-primary" href="{:url('workOrderBranch/update',['id' => $model.id])}"><i class="fa fa-check"></i>编辑</a>&nbsp;
+                        <button type="button" class="btn btn-sm btn-danger" onclick="closeModal()"><i class="fa fa-reply-all"></i>关 闭 </button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+</section>
+{include file="public/js" /}
+<script>
+    function closeModal(){
+        $.modal.close()
+    }
+</script>

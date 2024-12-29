@@ -1,0 +1,9 @@
+/.idea
+/.vscode
+*.log
+.env
+public/nginx.htaccess
+public/.user.ini
+public/h5
+public/uploads
+public/status

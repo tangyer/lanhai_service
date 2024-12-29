@@ -1,0 +1,60 @@
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+    <form class="form-horizontal m" id="hr-form" data-ref="activeCode">
+        <input  type="hidden" name="id" value="{$model.id}"/>
+        <div class="form-group">
+    <label for="merchant_id" class="col-sm-3 control-label is-required" >商户ID</label>
+    <div class="col-sm-8">
+        <input  type="text" id="merchant_id" class="form-control" placeholder="请输入商户ID" name="merchant_id" value="{$model.merchant_id}" required/>
+    </div>
+</div>
+<div class="form-group">
+    <label for="active_code" class="col-sm-3 control-label is-required" >激活码</label>
+    <div class="col-sm-8">
+        <input  type="text" id="active_code" class="form-control" placeholder="请输入激活码" name="active_code" value="{$model.active_code}" required/>
+    </div>
+</div>
+<div class="form-group">
+    <label for="active_code_group_id" class="col-sm-3 control-label is-required" >所属分组</label>
+    <div class="col-sm-8">
+        <input  type="text" id="active_code_group_id" class="form-control" placeholder="请输入所属分组" name="active_code_group_id" value="{$model.active_code_group_id}" required/>
+    </div>
+</div>
+<div class="form-group">
+    <label for="expire_time" class="col-sm-3 control-label is-required" >失效时间</label>
+    <div class="col-sm-8">
+        <input  type="text" id="expire_time" class="form-control" placeholder="请输入失效时间" name="expire_time" value="{$model.expire_time}" required/>
+    </div>
+</div>
+<div class="form-group">
+    <label for="platform" class="col-sm-3 control-label is-required" >使用平台</label>
+    <div class="col-sm-8">
+        <input  type="text" id="platform" class="form-control" placeholder="请输入使用平台" name="platform" value="{$model.platform}" required/>
+    </div>
+</div>
+<div class="form-group">
+    <label for="remark" class="col-sm-3 control-label is-required" >备注</label>
+    <div class="col-sm-8">
+        <input  type="text" id="remark" class="form-control" placeholder="请输入备注" name="remark" value="{$model.remark}" required/>
+    </div>
+</div>
+<div class="form-group">
+    <label for="content" class="col-sm-3 control-label is-required" >说明</label>
+    <div class="col-sm-8">
+        <input  type="text" id="content" class="form-control" placeholder="请输入说明" name="content" value="{$model.content}" required/>
+    </div>
+</div>
+<div class="form-group">
+    <label for="status" class="col-sm-3 control-label is-required" >状态</label>
+    <div class="col-sm-8">
+        <input  type="text" id="status" class="form-control" placeholder="请输入状态" name="status" value="{$model.status}" required/>
+    </div>
+</div>
+
+    </form>
+</div>
+{include file="public/form" /}
+
+
+
+
+

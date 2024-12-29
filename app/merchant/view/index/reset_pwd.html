@@ -1,0 +1,45 @@
+
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+    <form class="form-horizontal m" id="form-user-resetPwd">
+        <input name="id"  type="hidden"  value="{$user.id}" />
+        <div class="form-group">
+            <label class="col-sm-3 control-label">昵称：</label>
+            <div class="col-sm-8">
+                <input class="form-control" type="text" readonly="true" name="username" value="{$user.username}"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">输入密码：</label>
+            <div class="col-sm-8">
+                <input  class="form-control" type="password" name="password" id="password" >
+                <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 请尽量输入复杂密码，避免被攻击进入</span>
+            </div>
+        </div>
+    </form>
+</div>
+{include file="public/js" /}
+<script type="text/javascript">
+    $("body").removeClass("gray-bg").addClass("white-bg");
+    $("#form-user-resetPwd").validate({
+        rules:{
+            password:{
+                required:true,
+                minlength: 6,
+                maxlength: 20
+            },
+        },
+        focusCleanup: true
+    });
+
+    function submitHandler() {
+        if ($.validate.form()) {
+            $.operate.save(ctx + "/index/resetPwd", $('#form-user-resetPwd').serializeObject(),function (res){
+                if (res.code == web_status.SUCCESS){
+                    location.href = ctx + "/login";
+                }
+            });
+        }
+    }
+</script>
+
