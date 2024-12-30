@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <title ></title>
+    <link href="/static/css/bootstrap.min.css?v=3.3.8" rel="stylesheet"/>
+    <link href="/static/css/font-awesome.min.css?v=4.7.4" rel="stylesheet"/>
+    <!-- bootstrap-table 表格插件样式 -->
+    <link href="/static/ajax/libs/bootstrap-table/bootstrap-table.min.css?v=1.18.3" rel="stylesheet"/>
+    <link href="/static/css/animate.min.css?v=20210831" rel="stylesheet"/>
+    <link href="/static/css/style.css?v=20210831" rel="stylesheet"/>
+    <link href="/static/ruoyi/css/ry-ui.css?v=4.7.4" rel="stylesheet"/>
+    <!--富文本编辑器-->
+    <link href="/static/ajax/libs/summernote/summernote.css" rel="stylesheet"/>
+    <link href="/static/ajax/libs/select2/select2.min.css?v=4.0.13" rel="stylesheet"/>
+    <link href="/static/ajax/libs/select2/select2-bootstrap.min.css?v=4.0.13" rel="stylesheet"/>
+</head>
+<body>
+<div class="container-div">
+    <div class="row">
+<!--        <div class="col-sm-12 search-collapse">-->
+<!--            <form id="role-form">-->
+<!--                <div class="select-list">-->
+<!--                    <ul>-->
+<!--                        <li>-->
+<!--                            主帐号-->
+<!--                            <input type="text"  name="order_account_id"  id="order_account_id">-->
+<!--                        </li>-->
+<!--                        <li>-->
+<!--                            粉丝用户名-->
+<!--                            <input type="text"  name="fans_account_code"  id="fans_account_code">-->
+<!--                        </li>-->
+
+<!--                        <li>-->
+<!--                            <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>-->
+<!--                            <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>-->
+<!--                        </li>-->
+<!--                    </ul>-->
+<!--                </div>-->
+<!--            </form>-->
+<!--        </div>-->
+
+        <div class="btn-group-sm" id="toolbar" role="group">
+
+        </div>
+
+        <div class="col-sm-12 select-table table-striped">
+            <table id="boot-table"></table>
+        </div>
+    </div>
+</div>
+{include file="public/js" /}
+<script>
+
+    var editFlag = "";
+    var removeFlag = "";
+    var prefix = ctx + "/workOrderFans";
+    var sysFansType = JSON.parse('{:get_dict("sys_fans_type",true)}') ;
+
+    $(function() {
+        var options = {
+            url: prefix + "/index",
+            createUrl: prefix + "/create",
+            updateUrl: prefix + "/update?id={id}",
+            removeUrl: prefix + "/delete",
+            exportUrl: prefix + "/export",
+            sortName: "id",
+            modalName: "workOrderFans",
+            uniqueId:"id",
+            showSearch: false,
+            showRefresh: false,
+            showColumns: false,
+            showToggle: false,
+            columns:[
+                {field:"order_account_id",title:"主帐号" },
+                {field:"fans_account_code",title:"用户名" },
+                {field:"fans_mobile",title:"手机号" },
+                {field:"fans_account_id",title:"账户ID" },
+                {field:"fans_account_name",title:"账户名称" },
+                {field:"fans_type",title:"粉丝类型" ,formatter:function (value){
+                        return $.table.selectDictLabel(sysFansType,value)
+                    }},
+                // {field:"fans_flag",title:"粉丝标签" },
+                {field:"country",title:"国家" },
+                // {field:"create_time",title:"创建时间" },
+                // {field:"remark",title:"备注" },
+            ],
+        };
+        $.table.init(options);
+    });
+
+</script>
+
+</body>
+</html>
+
+
+

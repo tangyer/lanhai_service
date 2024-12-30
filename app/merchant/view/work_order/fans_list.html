@@ -88,7 +88,22 @@
                             </div>
                         </div>
                     </div>
+                </div>
 
+                <div class="row">
+                    <div>
+                        <div class="form-group row">
+                            <label class="col-sm-1 control-label " >分享连接</label>
+                            <div class="col-sm-5">
+                                <p class="form-control-plaintext" id="shareLink">
+                                    {:env('WEB_URL')}api/WorkOrder/fansList/{$model.order_code}
+                                </p>
+                            </div>
+                            <div class="col-sm-5">
+                                <a class="btn btn-primary  btn-sm" onclick="Share()"><i class="fa fa-share"></i>&nbsp;复制</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
             </form>
@@ -114,6 +129,7 @@
                         </li>
                     </ul>
                 </div>
+
             </form>
         </div>
 
@@ -179,6 +195,16 @@
         };
         $.table.init(options);
     });
+
+
+    function Share(){
+        var text = $('#shareLink').text();
+        var $tempInput = $('<input>');
+        $('body').append($tempInput);
+        $tempInput.val(text).select();
+        document.execCommand('copy');
+        layer.alert("复制成功");
+    }
 
 </script>
 

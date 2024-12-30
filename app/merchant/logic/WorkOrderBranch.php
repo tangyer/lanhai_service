@@ -11,7 +11,7 @@ class WorkOrderBranch extends BaseLogic
         $this->validate($data);
 
         if ($data['link_type'] == 'boss'){
-            $data['short_link'] = request()->domain().'/share/'.$data['order_code'];
+            $data['short_link'] = request()->domain().'/api/Share/shunt/'.$data['order_code'];
         }
 
         return parent::save($data);

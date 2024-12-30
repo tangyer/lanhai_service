@@ -4,6 +4,7 @@ namespace app\api\controller;
 
 use app\common\provider\Result;
 use think\App;
+use think\facade\View;
 use think\Request;
 use think\response\Json;
 
@@ -81,4 +82,15 @@ abstract class Base
 	{
 		return Result::error($code,$message,$data);
 	}
+
+    /**
+     * 页面渲染
+     * @param string $template  页面
+     * @param array $data 数据
+     * @return string
+     */
+    protected function fetch(string $template = '', array $data = []): string
+    {
+        return View::fetch($template,$data);
+    }
 }

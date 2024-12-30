@@ -17,7 +17,7 @@ $(function() {
               {checkbox:true},
             {field:"order_code",title:"工单编号"},
             {field:"account_name",title:"账户"},
-            {field:"mobile",title:"手机号"},
+            {field:"account_mobile",title:"手机号111"},
             {field:"account_id",title:"账户ID"},
             {field:"online_status",title:"在线状态"},
             {field:"port_status",title:"端口状态"},

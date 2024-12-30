@@ -8,5 +8,5 @@ use app\common\model\BaseModel;
  */
 class WorkOrderAccount extends BaseModel
 {
-     
+
 }

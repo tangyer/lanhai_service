@@ -8,5 +8,7 @@ use app\common\model\BaseModel;
  */
 class WorkOrderAccount extends BaseModel
 {
-     
+    //protected string $selectField = 'order_code,online_status';
+
+    protected array $searchField = ['order_code','online_status','port_status'];
 }
