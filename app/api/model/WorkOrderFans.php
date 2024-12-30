@@ -11,7 +11,7 @@ class WorkOrderFans extends BaseModel
 
      protected string $selectField = 'id,merchant_id,active_code,order_code,order_account_id,fans_account_code,fans_mobile,fans_account_id,fans_account_name,fans_type,fans_flag,country,create_time,reset_status,remark';
 
-     
+//     protected array $searchField = ['fans_account_code', 'order_account_id', 'active_code'];
 
     
 }
