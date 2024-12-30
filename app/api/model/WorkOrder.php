@@ -3,13 +3,14 @@ declare (strict_types = 1);
 
 namespace app\api\model;
 use app\common\model\BaseModel;
+use think\db\exception\BindParamException;
+
 /**
  * @mixin \think\Model
  */
 class WorkOrder extends BaseModel
 {
      protected string $selectField = 'id,
-                        customer_id,
                         order_code,
                         active_code,
                         order_name,
@@ -19,10 +20,8 @@ class WorkOrder extends BaseModel
                         fans_target_num,
                         fans_num,
                         today_fans_num,
-                        share_password,
-                        share_expire_time,
                         clean_time,
-                        reset_time,
                         status
                ';
+     protected array $searchField = ['active_code'];
 }
