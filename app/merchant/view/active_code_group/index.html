@@ -1,0 +1,97 @@
+<div class="container-div">
+    <div class="row">
+        <div class="col-sm-12 search-collapse">
+            <form id="role-form">
+                <div class="select-list">
+                    <ul>
+
+                        <li>
+                             分组名称
+                              <input type="text"  name="group_name"  id="group_name">
+                        </li>
+                        <li>
+                             状态
+                             <select class=" select2" id="status"  name="status"  >
+                                  <option value="">请选择</option>
+                                {volist name=":get_dict('sys_normal_disable')" id="dict"}
+                                    <option  value="{$dict.dict_value}" >{$dict.dict_label}</option>
+                                {/volist}
+                            </select>
+                        </li>
+
+                        <li>
+                            <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                            <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+
+        <div class="btn-group-sm" id="toolbar" role="group">
+            <a class="btn btn-success" onclick="$.operate.add()" >
+                <i class="fa fa-plus"></i> 新增
+            </a>
+            <a class="btn btn-primary single disabled" onclick="$.operate.edit()" >
+                <i class="fa fa-edit"></i> 修改
+            </a>
+            <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()">
+                <i class="fa fa-remove"></i> 删除
+            </a>
+        </div>
+
+        <div class="col-sm-12 select-table table-striped">
+            <table id="boot-table"></table>
+        </div>
+    </div>
+</div>
+{include file="public/js" /}
+<script>
+    
+var editFlag = "";
+var removeFlag = "";
+var prefix = ctx + "/activeCodeGroup";
+var sysNormalDisable = JSON.parse('{:get_dict("sys_normal_disable",true)}') ;
+
+$(function() {
+    var options = {
+        url: prefix + "/index",
+        createUrl: prefix + "/create",
+        updateUrl: prefix + "/update?id={id}",
+        removeUrl: prefix + "/delete",
+        exportUrl: prefix + "/export",
+        sortName: "id",
+        modalName: "激活码分组",
+        uniqueId:"id",
+        columns:[
+            {checkbox:true},
+            {field:"group_name",title:"分组名称" },
+            {field:"remark",title:"备注" },
+            {field:"status",title:"状态" ,formatter:function (value){
+                    return $.table.selectDictLabel(sysNormalDisable,value)
+                }},
+            {field:"create_time",title:"创建时间" },
+
+            {
+                title: '操作',
+                width: '10',
+                widthUnit: '%',
+                align: "left",
+                formatter: function(value, row, index) {
+                    var actions = [];
+                    actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                    actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-trash"></i>删除</a>');
+                    return actions.join('');
+                }
+            }
+        ],
+    };
+    $.table.init(options);
+});
+
+</script>
+
+
+
+
+

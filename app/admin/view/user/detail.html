@@ -1,0 +1,88 @@
+<!-- Main content -->
+<section class="content">
+    <div class="panel panel-default panel-intro">
+        <div class="panel-body">
+                <div class="form-group">
+        <label class="col-sm-3 control-label" >登入账号</label>
+        <div class="col-sm-9">
+            {$model.username}
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label" >登录密码</label>
+        <div class="col-sm-9">
+            {$model.password}
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label" >密码盐</label>
+        <div class="col-sm-9">
+            {$model.salt}
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label" >真实姓名</label>
+        <div class="col-sm-9">
+            {$model.realname}
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label" >电话</label>
+        <div class="col-sm-9">
+            {$model.mobile}
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label" >身份标识</label>
+        <div class="col-sm-9">
+            {$model.token}
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label" >角色id</label>
+        <div class="col-sm-9">
+            {$model.role_id}
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label" >最后登录时间</label>
+        <div class="col-sm-9">
+            {$model.last_login_time}
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label" >最后登录IP</label>
+        <div class="col-sm-9">
+            {$model.last_login_ip}
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label" >登录失败次数</label>
+        <div class="col-sm-9">
+            {$model.fail_times}
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label" >状态1正常 0 禁用</label>
+        <div class="col-sm-9">
+            {$model.status}
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label" >创建时间</label>
+        <div class="col-sm-9">
+            {$model.create_time}
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label" >是否删除0 未删除 1已删除</label>
+        <div class="col-sm-9">
+            {$model.deleted}
+        </div>
+    </div>
+ 
+
+        </div>
+    </div>
+
+</section>

@@ -1,0 +1,188 @@
+<div class="container-div">
+
+    <div class="panel panel-primary panel-intro m-t">
+        <div class="panel-body">
+            <form class="form-horizontal">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="form-group row">
+                            <label class="col-sm-5 control-label" >工单编号</label>
+                            <div class="col-sm-7">
+                                <p class="form-control-plaintext">{$model.order_code}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group row">
+                            <label class="col-sm-5 control-label " >激活码</label>
+                            <div class="col-sm-7">
+                                <p class="form-control-plaintext">{$model.active_code}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group row">
+                            <label class="col-sm-5 control-label " >工单名称</label>
+                            <div class="col-sm-7">
+                                <p class="form-control-plaintext">{$model.order_name}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group row">
+                            <label class="col-sm-5 control-label " >工单类型</label>
+                            <div class="col-sm-7">
+                                <p class="form-control-plaintext">{$model.platform}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="form-group row">
+                            <label class="col-sm-5 control-label " >
+                                <i class="fa fa-info-circle"  data-toggle="tooltip" title="总端口数 / 使用端口 / 在线端口"></i>
+                                端口数
+                            </label>
+                            <div class="col-sm-7">
+                                <p class="form-control-plaintext">
+                                    {$model.port_num} /
+                                    {$model.port_use_num} /
+                                    {$model.port_online_num}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                        <div class="form-group row">
+                            <label class="col-sm-5 control-label " >
+                                <i class="fa fa-info-circle"  data-toggle="tooltip" title="进粉总数 / 重复粉数 / 当日进粉数"></i>
+                                进粉总数
+                            </label>
+                            <div class="col-sm-7">
+                                <p class="form-control-plaintext">
+                                    {$model.fans_num} /
+                                    {$model.fans_repeat_num} /
+                                    {$model.today_fans_num}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                        <div class="form-group row">
+                            <label class="col-sm-5 control-label " >清零时间</label>
+                            <div class="col-sm-7">
+                                <p class="form-control-plaintext">{$model.clean_time}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                        <div class="form-group row">
+                            <label class="col-sm-5 control-label " >状态</label>
+                            <div class="col-sm-7">
+                                <p class="form-control-plaintext">{:get_dict_label('sys_normal_disable',$model.status)}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 search-collapse">
+            <form id="role-form">
+                <div class="select-list">
+                    <ul>
+                        <li>
+                            主帐号
+                            <input type="text"  name="order_account_id"  id="order_account_id">
+                        </li>
+                        <li>
+                            粉丝用户名
+                            <input type="text"  name="fans_account_code"  id="fans_account_code">
+                        </li>
+
+                        <li>
+                            <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                            <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+
+        <div class="btn-group-sm" id="toolbar" role="group">
+
+        </div>
+
+        <div class="col-sm-12 select-table table-striped">
+            <table id="boot-table"></table>
+        </div>
+    </div>
+</div>
+{include file="public/js" /}
+<script>
+
+    var editFlag = "";
+    var removeFlag = "";
+    var prefix = ctx + "/workOrderFans";
+    var sysFansType = JSON.parse('{:get_dict("sys_fans_type",true)}') ;
+
+    $(function() {
+        var options = {
+            url: prefix + "/index",
+            createUrl: prefix + "/create",
+            updateUrl: prefix + "/update?id={id}",
+            removeUrl: prefix + "/delete",
+            exportUrl: prefix + "/export",
+            sortName: "id",
+            modalName: "workOrderFans",
+            uniqueId:"id",
+            showSearch: false,
+            showRefresh: false,
+            showColumns: false,
+            showToggle: false,
+            columns:[
+                {checkbox:true},
+                {field:"order_account_id",title:"主帐号" },
+                {field:"fans_account_code",title:"用户名" },
+                {field:"fans_mobile",title:"手机号" },
+                {field:"fans_account_id",title:"账户ID" },
+                {field:"fans_account_name",title:"账户名称" },
+                {field:"fans_type",title:"粉丝类型" ,formatter:function (value){
+                        return $.table.selectDictLabel(sysFansType,value)
+                    }},
+                {field:"fans_flag",title:"粉丝标签" },
+                {field:"country",title:"国家" },
+                {field:"create_time",title:"创建时间" },
+                {field:"remark",title:"备注" },
+
+                {
+                    title: '操作',
+                    width: '10',
+                    widthUnit: '%',
+                    align: "left",
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-trash"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }
+            ],
+        };
+        $.table.init(options);
+    });
+
+</script>
+
+
+
+
+

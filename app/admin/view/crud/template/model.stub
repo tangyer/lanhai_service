@@ -1,0 +1,17 @@
+<?php
+declare (strict_types = 1);
+
+namespace {%namespace%};
+use app\common\model\BaseModel;
+/**
+ * @mixin \think\Model
+ */
+class {%className%} extends BaseModel
+{
+
+     {%selectField%}
+
+     {%searchField%}
+
+     {%softDel%}
+}

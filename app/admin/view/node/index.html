@@ -1,0 +1,55 @@
+
+<div class="container-div">
+    <div class="row">
+        <div class="col-sm-12 search-collapse">
+            <form id="node-form">
+                <div class="select-list">
+                    <ul>
+                        <li>
+                            节点名称：<input type="text" name="title"/>
+                        </li>
+                        <li>
+                            节点状态：
+                            <select name="status" >
+                                <option value="">全部</option>
+                                <option value="1">显示</option>
+                                <option value="0">隐藏</option>
+                            </select>
+                        </li>
+                        <li>
+                            应用：
+                            <select name="app_type" id="app_type">
+                                <option value="admin">总后台</option>
+                                <option value="merchant">商户后台</option>
+                            </select>
+                        </li>
+                        <li>
+                            <a class="btn btn-primary btn-rounded btn-sm" onclick="$.treeTable.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                            <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+
+        <div class="btn-group-sm" id="toolbar" role="group">
+            <a class="btn btn-success" onclick="add()" >
+                <i class="fa fa-plus"></i> 新增
+            </a>
+<!--            <a class="btn btn-primary single " onclick="$.operate.edit()" >-->
+<!--                <i class="fa fa-edit"></i> 修改-->
+<!--            </a>-->
+        </div>
+
+        <div class="col-sm-12 select-table table-striped">
+            <table id="boot-tree-table"></table>
+        </div>
+    </div>
+</div>
+{include file="public/table" name="node"/}
+
+<script>
+    function add(){
+        $.operate.add($('#app_type').val())
+    }
+</script>

@@ -1,0 +1,86 @@
+<div class="container-div">
+    <div class="row">
+        <div class="col-sm-12 search-collapse">
+            <form id="role-form">
+                <div class="select-list">
+                    <ul>
+
+                        <li>
+                             登入账号
+                                  <input type="text"  name="username"  id="username">
+                        </li>
+                        <li>
+                             状态
+                             <select class=" select2" id="status"  name="status"  >
+                                  <option value="">请选择</option>
+                                {volist name=":get_dict('sys_normal_disable')" id="dict"}
+                                    <option  value="{$dict.dict_value}" >{$dict.dict_label}</option>
+                                {/volist}
+                                </select>
+                        </li>
+
+                        <li>
+                            <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                            <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+
+<!--        <div class="btn-group-sm" id="toolbar" role="group">-->
+<!--            <a class="btn btn-success" onclick="$.operate.add()" >-->
+<!--                <i class="fa fa-plus"></i> 新增-->
+<!--            </a>-->
+<!--            <a class="btn btn-primary single disabled" onclick="$.operate.edit()" >-->
+<!--                <i class="fa fa-edit"></i> 修改-->
+<!--            </a>-->
+<!--            <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()">-->
+<!--                <i class="fa fa-remove"></i> 删除-->
+<!--            </a>-->
+<!--        </div>-->
+
+        <div class="col-sm-12 select-table table-striped">
+            <table id="boot-table"></table>
+        </div>
+    </div>
+</div>
+{include file="public/js" /}
+<script>
+    
+var editFlag = "";
+var removeFlag = "";
+var prefix = ctx + "/merchantUser";
+var sysNormalDisable = JSON.parse('{:get_dict("sys_normal_disable",true)}') ;
+
+$(function() {
+    var options = {
+        url: prefix + "/index",
+        createUrl: prefix + "/create",
+        updateUrl: prefix + "/update?id={id}",
+        removeUrl: prefix + "/delete",
+        exportUrl: prefix + "/export",
+        sortName: "id",
+        modalName: "merchantUser",
+        uniqueId:"id",
+        columns:[
+            {checkbox:true},
+            {field:"username",title:"登入账号" },
+            {field:"last_login_time",title:"最后登录时间" },
+            {field:"last_login_ip",title:"最后登录IP" },
+            {field:"fail_times",title:"登录失败次数" },
+            {field:"status",title:"状态" ,formatter:function (value){
+                    return $.table.selectDictLabel(sysNormalDisable,value)
+                }},
+            {field:"create_time",title:"创建时间" }
+        ],
+    };
+    $.table.init(options);
+});
+
+</script>
+
+
+
+
+

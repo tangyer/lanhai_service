@@ -1,0 +1,27 @@
+{include file="public/js" /}
+<script>
+    // $("body").removeClass("gray-bg").addClass("white-bg");
+    function submitHandler() {
+        if ($.validate.form()) {
+            save();
+        }
+    }
+
+    function save(){
+        let form = $("#hr-form");
+        let url = form.data("url") || ctx + "/" + form.data("ref") + "/save";
+        $.ajax({
+            cache : true,
+            type : "POST",
+            url : url,
+            data : form.serializeObject(),
+            async : false,
+            error : function(request) {
+                $.modal.alertError("系统错误");
+            },
+            success : function(data) {
+                $.operate.successCallback(data);
+            }
+        });
+    }
+</script>

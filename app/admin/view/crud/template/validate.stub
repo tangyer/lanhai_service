@@ -1,0 +1,10 @@
+<?php
+declare (strict_types = 1);
+
+namespace {%namespace%};
+use think\Validate;
+
+class {%className%} extends Validate
+{
+    protected $rule = {%rules%}
+}

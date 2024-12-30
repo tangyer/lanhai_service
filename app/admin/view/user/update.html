@@ -1,0 +1,55 @@
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+    <form class="form-horizontal m" id="hr-form" data-ref="user">
+        <input  type="hidden" name="id" value="{$model.id}"/>
+        <div class="form-group">
+           <label for="username" class="col-sm-3 control-label" >登入账号</label>
+           <div class="col-sm-8">
+                <input  type="text" id="username" class="form-control" placeholder="请输入登入账号" name="username" value="{$model.username}" readonly required/>
+           </div>
+        </div>
+        <div class="form-group">
+           <label for="realname" class="col-sm-3 control-label" >真实姓名</label>
+           <div class="col-sm-8">
+                <input  type="text" id="realname" class="form-control" placeholder="请输入真实姓名" name="realname" value="{$model.realname}" required/>
+           </div>
+        </div>
+        <div class="form-group">
+           <label for="mobile" class="col-sm-3 control-label" >电话</label>
+           <div class="col-sm-8">
+                <input  type="text" id="mobile" class="form-control" placeholder="请输入电话" name="mobile" value="{$model.mobile}" required/>
+           </div>
+        </div>
+
+        <div class="form-group">
+           <label for="role_id" class="col-sm-3 control-label" >角色</label>
+           <div class="col-sm-8">
+               <select class="form-control" data-toggle="select" data-url="{:url('ajax/role')}" data-field="role_name" data-value="{$model.role_id}" name="role_id" id="role_id" required></select>
+           </div>
+        </div>
+<!--        <div class="form-group">-->
+<!--           <label for="fail_times" class="col-sm-3 control-label" >登录失败次数</label>-->
+<!--           <div class="col-sm-8">-->
+<!--                <input  type="text" id="fail_times" class="form-control" placeholder="请输入登录失败次数" name="fail_times" value="{$model.fail_times}" required/>-->
+<!--           </div>-->
+<!--        </div>-->
+        <div class="form-group">
+            <label class="col-sm-3 control-label">状态：</label>
+            <div class="col-sm-8">
+                <select name="status" class="form-control" id="status">
+                    <option value="1">启用</option>
+                    <option value="0">停用</option>
+                </select>
+            </div>
+        </div>
+
+    </form>
+</div>
+{include file="public/form" /}
+<script>
+    $("#status").val("{$model.status}");
+</script>
+
+
+
+
+
