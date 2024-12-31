@@ -199,7 +199,7 @@
 
     function Share(){
         var text = $('#shareLink').text();
-        var $tempInput = $('<input>');
+        var $tempInput = $('<input hidden="">');
         $('body').append($tempInput);
         $tempInput.val(text).select();
         document.execCommand('copy');
