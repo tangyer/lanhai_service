@@ -29,7 +29,7 @@ class WorkOrderAccount extends BaseLogic
     {
         $info = $this->findOne(['account_mobile' => $params['account_mobile']]);
         $info->online_status = $params['online_status'];
-        $info->online_time = $params['last_login_time'] ? $params['last_login_time'] : $params['login_time'];
+        $info->online_time = !empty($params['last_login_time']) ? $params['last_login_time'] : $params['login_time'];
         $info->port_status = $params['port_status'];
         $result = $info->save();
         if(!$result) return false;

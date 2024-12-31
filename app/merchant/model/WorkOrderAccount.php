@@ -13,5 +13,5 @@ class WorkOrderAccount extends BaseModel
 
       protected array $searchField = ['merchant_id','active_code','order_code','account_mobile','online_status','port_status'];
 
-    
+    protected $date = ['online_time', 'offline_time'];
 }

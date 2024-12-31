@@ -58,11 +58,11 @@ class WorkOrderAccount extends Base
     {
         $params = $this->getInput();
         $user_id = $params['user_id'] ?? ''; //登录账号，手机号
-        $online_status = $params['online_status'] ?? ''; // 登录状态 1 登录  2 登出
+        $online_status = $params['online_status'] ?? 0; // 登录状态 1 登录  0 登出
         $login_time = $params['login_time'] ?? time(); // 登录时间
-        $port_status = $params['port_status'] ?? ''; // 占用端口
-        $last_login_time = $params['last_login_time'] ?? ''; // 最后登录时间
-        if(!$user_id || !$online_status || !$port_status){
+        $port_status = $online_status == 1 ? 1 : 0 ; // 占用端口
+        $last_login_time = $params['last_login_time'] ?? time(); // 最后登录时间
+        if(!$user_id || !is_numeric($online_status)){
             return $this->error(Result::PARAM_ERROR,'参数错误');
         }
         $result = $workOrderAccount->updateMainAccount([
