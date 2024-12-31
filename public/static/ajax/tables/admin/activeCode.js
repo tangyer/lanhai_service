@@ -15,9 +15,9 @@ $(function() {
         uniqueId:"id",
         columns:[
               {checkbox:true},
-            {field:"merchant_id",title:"商户ID"},
+            {field:"merchant_name",title:"商户ID"},
             {field:"active_code",title:"激活码"},
-            {field:"active_code_group_id",title:"所属分组"},
+            {field:"group_name",title:"所属分组"},
             {field:"expire_time",title:"失效时间"},
             {field:"platform",title:"使用平台"},
             {field:"remark",title:"备注"},

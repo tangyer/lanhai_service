@@ -8,8 +8,16 @@ use app\common\model\BaseModel;
  */
 class ActiveCode extends BaseModel
 {
+    // 设置字段类型
+    protected $type = [
+        'expire_time' => 'timestamp:Y-m-d H:i:s'
+    ];
+     protected string $selectField = 'id,merchant_id,active_code,active_code_group_id,port_num,expire_time,platform,remark,content,status,create_time,merchant.merchant_name,active_code_group.group_name';
 
-     protected string $selectField = 'id,merchant_id,active_code,active_code_group_id,port_num,expire_time,platform,remark,content,status,create_time';
+     protected array $searchField = ['merchant_id','active_code','platform','merchant.merchant_name'];
 
-     protected array $searchField = ['merchant_id','active_code','platform'];
+    protected array $join = [
+        ['merchant' , 'merchant.id = ActiveCode.merchant_id'],
+        ['active_code_group' , 'active_code_group.id = ActiveCode.active_code_group_id']
+    ];
 }
