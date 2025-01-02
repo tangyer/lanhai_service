@@ -13,8 +13,8 @@ class WorkOrderAccount extends BaseLogic
     public function getList(array $where = [])
     {
         return $this->model->getList($where)->each(function($item, $key){
-            $item->online_time = $item->online_time ? date('Y-m-d H:i:s' , $item->online_time) :'';
-            $item->offline_time = $item->offline_time ? date('Y-m-d H:i:s' , $item->offline_time) :'';
+            //$item->online_time = $item->online_time ? date('Y-m-d H:i:s' , $item->online_time) :'';
+            //$item->offline_time = $item->offline_time ? date('Y-m-d H:i:s' , $item->offline_time) :'';
         });
     }
 
