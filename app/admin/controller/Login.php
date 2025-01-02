@@ -2,6 +2,7 @@
 
 namespace app\admin\controller;
 
+use app\common\provider\Result;
 use app\admin\logic\User;
 use think\captcha\facade\Captcha;
 use think\response\Json;
