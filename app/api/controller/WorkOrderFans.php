@@ -46,13 +46,13 @@ class WorkOrderFans extends Base
         $params = $this->getInput();
         $token = $this->request->header('token');
         $info = Cache::get($token);
+        if(!$info) return $this->error(Result::TOKEN_ERROR,'身份验证错误');
         $data = [
-            'fans_account' => $params['fans_account'] ?? '', // 粉丝账号
+            'fans_account_id' => $params['platform_id'] ?? '', // 平台id
             'order_account_id' => $params['main_account'] ?? '', // 主账号
             'order_code' => $params['order_number'] ?? '', // 工单号
             'contact' => $params['contact'] ?? '', // 联系方式
             'fans_mobile' => $params['fans_phone'] ?? '', // 手机号
-            'fans_account_code' => $params['fans_account'] ?? '', // 粉丝账号
         ];
         $result = $workOrderFans->register($info, $data);
         if (!$result) return $this->error(Result::FAIL_ERROR,'操作失败');
