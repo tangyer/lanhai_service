@@ -35,12 +35,6 @@ class WorkOrderFans extends BaseLogic
         ];
         // 同主账号是否进过
         $sameAccountCount = $workOrderFans->where($where)->where($whereSameAccount)->count('id');
-        // 同主账号进过标记为老粉
-        if($sameAccountCount){
-            $data['fans_type'] = 2;
-            // 重复粉数 +1
-            $updateData['fans_repeat_num'] = Db::raw('fans_repeat_num + 1');
-        }
 
         $sameOrderCount = false;
         // 当日工单是否进过
@@ -53,8 +47,8 @@ class WorkOrderFans extends BaseLogic
             // 同工单是否进过
             $sameOrderCount = $workOrderFans->where($where)->count('id');
         }
-        // 当日工单进过 或 工单进过
-        if ($todaySameOrderCount || $sameOrderCount){
+        // 同主账号进过 或 当日工单进过 或 工单进过
+        if ($sameAccountCount || $todaySameOrderCount || $sameOrderCount){
             // 同工单进过标记为老粉
             $data['fans_type'] = 2;
             // 重复粉数 +1
