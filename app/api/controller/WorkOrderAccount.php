@@ -40,7 +40,7 @@ class WorkOrderAccount extends Base
         $params = $this->getInput();
         $user_id = $params['user_id'] ?? 0;
         if (!$user_id) return $this->error(Result::PARAM_ERROR,'参数错误');
-        $fansRecord = $workOrderAccount->findOne(['account_code' => $user_id]);
+        $fansRecord = $workOrderAccount->findOne(['account_id' => $user_id]);
         return $this->success([
             'news_fans_number' => $fansRecord->today_fans_num, // 当日置零后进粉总数
             'repeat_fans_number' => $fansRecord->today_fans_repeat_num, // 当日置零后重粉总数

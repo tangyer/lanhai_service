@@ -25,7 +25,7 @@ class WorkOrderFans extends BaseLogic
             'order_account_id' => $data['order_account_id'],
         ];
         $workOrderFans = new \app\api\model\WorkOrderFans();
-        // 今日 同主账号是否进过
+        // 当日 同主账号是否进过
         $todaySameAccountCount = $workOrderFans->where($where)->where($whereSameAccount)->whereDay('create_time')->count('id');
         if($todaySameAccountCount) return true;
 
@@ -39,23 +39,35 @@ class WorkOrderFans extends BaseLogic
         if($sameAccountCount){
             $data['fans_type'] = 2;
             // 重复粉数 +1
-            $updateData['fans_repeat_num'] = Db::raw('fans_repeat_num + 1'); // 重复粉数
+            $updateData['fans_repeat_num'] = Db::raw('fans_repeat_num + 1');
         }
-        // 同工单是否进过
-        $sameOrderCount = $workOrderFans->where($where)->count('id');
-        // 同工单进过标记为重粉
-        if($sameOrderCount){
-            $data['fans_type'] = 3;
-            $updateData['fans_repeat_num'] = Db::raw('fans_repeat_num + 1'); // 重复粉数
+
+        $sameOrderCount = false;
+        // 当日工单是否进过
+        $todaySameOrderCount = $workOrderFans->where($where)->whereDay('create_time')->count('id');
+        // 当日工单进过 当日重粉 +1
+        if($todaySameOrderCount){
+            // 当日重复粉数 +1
+            $updateData['today_fans_repeat_num'] = Db::raw('today_fans_repeat_num + 1');
+        }else{
+            // 同工单是否进过
+            $sameOrderCount = $workOrderFans->where($where)->count('id');
         }
+        // 当日工单进过 或 工单进过
+        if ($todaySameOrderCount || $sameOrderCount){
+            // 同工单进过标记为老粉
+            $data['fans_type'] = 2;
+            // 重复粉数 +1
+            $updateData['fans_repeat_num'] = Db::raw('fans_repeat_num + 1');
+        }
+
         try {
             // 开始事务
             Db::startTrans();
-            // 主账号统计
+            // 更新主账号统计
             (new \app\api\model\WorkOrderAccount())->where('account_id',$data['order_account_id'])->update($updateData);
-            // 工单统计
+            // 更新工单统计
             (new \app\api\model\WorkOrder())->where('order_code',$data['order_code'])->update($updateData);
-
             // 添加粉丝记录
             $result = $this->create($data);
             if(!$result) return false;
