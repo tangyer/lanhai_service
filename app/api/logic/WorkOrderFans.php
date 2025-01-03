@@ -20,6 +20,7 @@ class WorkOrderFans extends BaseLogic
         $where = [
             'order_code' => $data['order_code'],
             'fans_account_id' => $data['fans_account_id'],
+            'reset_status' => 0
         ];
         $whereSameAccount = [
             'order_account_id' => $data['order_account_id'],

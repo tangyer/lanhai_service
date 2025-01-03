@@ -5,6 +5,7 @@ namespace app\api\controller;
 
 
 use app\common\provider\Result;
+use think\facade\Cache;
 use think\response\Json;
 
 class WorkOrderAccount extends Base
@@ -42,11 +43,32 @@ class WorkOrderAccount extends Base
         if (!$user_id) return $this->error(Result::PARAM_ERROR,'参数错误');
         $fansRecord = $workOrderAccount->findOne(['account_id' => $user_id]);
         return $this->success([
-            'news_fans_number' => $fansRecord->today_fans_num, // 当日置零后进粉总数
-            'repeat_fans_number' => $fansRecord->today_fans_repeat_num, // 当日置零后重粉总数
-            'all_new_fans_number' => $fansRecord->fans_num - $fansRecord->fans_repeat_num, // 新粉数
-            'all_repeat_fans_number' => $fansRecord->fans_repeat_num, // 重粉数
-            'all_fans_number' => $fansRecord->fans_num // 全部粉丝数
+            'news_fans_number' => $fansRecord->today_fans_num ?? 0, // 当日置零后进粉总数
+            'repeat_fans_number' => $fansRecord->today_fans_repeat_num ?? 0, // 当日置零后重粉总数
+            'all_new_fans_number' => $fansRecord->fans_num - $fansRecord->fans_repeat_num ?? 0, // 新粉数
+            'all_repeat_fans_number' => $fansRecord->fans_repeat_num ?? 0, // 重粉数
+            'all_fans_number' => $fansRecord->fans_num ?? 0 // 全部粉丝数
+        ]);
+    }
+
+    /**
+     * 根据主号获取粉丝数据
+     * @return Json
+     */
+    public function getFansStatias(\app\api\logic\WorkOrder $workOrder): Json
+    {
+        $params = $this->getInput();
+        $token = $this->request->header('token');
+        $info = Cache::get($token);
+        if(!$info) return $this->error(Result::TOKEN_ERROR,'身份验证错误');
+        $platform = $params['platform'] ?? '';
+        if (!$platform) return $this->error(Result::PARAM_ERROR,'参数错误');
+        $fansRecord = $workOrder->findOne(['active_code' => $info['active_code'],'platform' => $platform]);
+        return $this->success([
+            'new_fans_number' => $fansRecord->today_fans_num ?? 0, // 当日置零后进粉总数
+            'repeat_fans_number' => $fansRecord->today_fans_repeat_num ?? 0, // 当日置零后重粉总数
+            'all_fans_number' => $fansRecord->fans_num ?? 0, //  工单重置后进粉总数
+            'all_repeat_fans_number' => $fansRecord->fans_repeat_num ?? 0, // 工单重置后重粉总数
         ]);
     }
 
