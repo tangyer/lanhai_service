@@ -3,7 +3,7 @@ declare (strict_types = 1);
 
 namespace app\api\controller;
 use app\common\provider\Result;
-use app\common\traits\AdminAction;
+use app\common\traits\Action;
 use think\response\Json;
 use translate\Baidu;
 use translate\Google;
@@ -52,16 +52,21 @@ class TranslateEngine extends Base
 
     public function translate(): Json
     {
+        $time_start = microtime(true);
         $params = $this->getInput();
-        $engineCode = $params['engineCode'] ?? '';
+        $engineCode = $params['engineCode'] ?? 'google';
         $fromLang = $params['fromLang'] ?? '';
         $toLang = $params['toLang'] ?? '';
         $text = $params['text'] ?? '';
         if (!$engineCode || !$fromLang || !$toLang || !$text) {
             return $this->error(Result::PARAM_ERROR,'参数错误');
         }
+
         $engine = $this->getEngine($engineCode);
         $result = $engine->translate($text,$fromLang,$toLang);
+        $time_end = microtime(true);
+        $time = $time_end - $time_start;
+        trace('运行时间', $time .'=================================');
         return $this->success(['result' => $result]);
     }
 
