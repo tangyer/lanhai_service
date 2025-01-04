@@ -23,11 +23,11 @@ class HttpClient
     public static function get(string $url = '',array $params = []): mixed
     {
         $client = self::getClient();
-//        $option = [];
+        $option = [];
         //开启代理
-        $option = [
-            'proxy' => 'http://127.0.0.1:7890',
-        ];
+        // $option = [
+        //     'proxy' => 'http://127.0.0.1:7890',
+        // ];
         if ($params){
             $option['query'] = $params;
         }

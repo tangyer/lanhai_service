@@ -95,9 +95,12 @@
                         <div class="form-group row">
                             <label class="col-sm-1 control-label " >分享连接</label>
                             <div class="col-sm-5">
-                                <p class="form-control-plaintext" id="shareLink">
+                                <p class="form-control-plaintext" id="">
                                     {:env('WEB_URL')}api/WorkOrder/fansList/{$model.order_code}
                                 </p>
+                                <textarea style="display:none;" name="" id="shareLink" rows="8" cols="40">
+                                    {:env('WEB_URL')}api/WorkOrder/fansList/{$model.order_code}
+                                </textarea>
                             </div>
                             <div class="col-sm-5">
                                 <a class="btn btn-primary  btn-sm" onclick="Share()"><i class="fa fa-share"></i>&nbsp;复制</a>
