@@ -12,7 +12,7 @@ class Login extends Base
         $code = $input['code'] ?? '';
         if (!$code) return $this->error(Result::PARAM_ERROR,'参数错误');
         $model = $activeCode->findOneByActiveCode($code);
-        $model->content_permission = 1;
+        $model->content_permission = true;
         $model->access_token = md5($model->active_code.random_int(1000,9999).time());
         Cache::set($model->access_token,$model->toArray(),86400);
         return $this->success([
