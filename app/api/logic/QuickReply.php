@@ -19,12 +19,15 @@ class QuickReply extends BaseLogic
         if($quickReplyData->isEmpty()){
             return false;
         }
+        $resultData = [];
         $quickReplyData = $quickReplyData->toArray();
         foreach ($quickReplyData as $key => $item){
+            $resultData[$key]['name'] = $item['type_name'];
             foreach ($item['quickReply'] as $k => $value){
-                $quickReplyData[$key]['quickReply'][$k]['content'] = explode(';',$value['content'],);
+                $resultData[$key]['quick_reply_content'][$k]['name'] = $value['reply_name'];
+                $resultData[$key]['quick_reply_content'][$k]['content'] = explode(';',$value['content'],);
             }
         }
-        return  $quickReplyData;
+        return  $resultData;
     }
 }
