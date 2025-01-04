@@ -1,0 +1,39 @@
+<div class="wrapper wrapper-content animated fadeInRight">
+    <form class="form-horizontal m" id="hr-form" data-ref="quickReply">
+        <input  type="hidden" name="id" value="{$model.id}"/>
+            <div class="form-group">
+       <label  class="col-sm-3 control-label " >商户ID</label>
+        <div class="col-sm-8">
+           <input  type="text" id="merchant_id" class="form-control " placeholder="请输入商户ID" name="merchant_id" value="{$model.merchant_id}"  />
+        </div>
+    </div>
+    <div class="form-group">
+       <label  class="col-sm-3 control-label " >回复名称</label>
+        <div class="col-sm-8">
+           <input  type="text" id="reply_name" class="form-control " placeholder="请输入回复名称" name="reply_name" value="{$model.reply_name}"  />
+        </div>
+    </div>
+    <div class="form-group">
+       <label  class="col-sm-3 control-label " >回复组</label>
+        <div class="col-sm-8">
+           <select class="form-control select2" id="reply_type" data-value="{$model.reply_type}" name="reply_type"    >
+  <option value="">请选择</option>
+
+</select>
+        </div>
+    </div>
+    <div class="form-group">
+       <label  class="col-sm-3 control-label " >内容</label>
+        <div class="col-sm-8">
+           <input  type="text" id="content" class="form-control " placeholder="请输入内容" name="content" value="{$model.content}"  />
+        </div>
+    </div>
+
+    </form>
+</div>
+{include file="public/form" /}
+
+
+
+
+
