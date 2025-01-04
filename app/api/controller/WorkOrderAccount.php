@@ -62,8 +62,9 @@ class WorkOrderAccount extends Base
         $info = Cache::get($token);
         if(!$info) return $this->error(Result::TOKEN_ERROR,'身份验证错误');
         $platform = $params['platform'] ?? '';
+        $order_code = $params['order_number'] ?? '';
         if (!$platform) return $this->error(Result::PARAM_ERROR,'参数错误');
-        $fansRecord = $workOrder->findOne(['active_code' => $info['active_code'],'platform' => $platform]);
+        $fansRecord = $workOrder->findOne(['order_code' => $order_code,'platform' => $platform]);
         return $this->success([
             'new_fans_number' => $fansRecord->today_fans_num ?? 0, // 当日置零后进粉总数
             'repeat_fans_number' => $fansRecord->today_fans_repeat_num ?? 0, // 当日置零后重粉总数
