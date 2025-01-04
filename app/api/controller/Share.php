@@ -5,6 +5,7 @@ namespace app\api\controller;
 use app\common\controller\BaseController;
 use app\common\provider\Result;
 use app\common\traits\ApiAction;
+use app\merchant\model\WorkOrderBranch;
 use think\facade\Cache;
 
 class Share extends BaseController
@@ -38,18 +39,22 @@ class Share extends BaseController
         $nextIndex=($currentIndex+1)% count($accountAll);
         Cache::set($key,$nextIndex);
 
+        // 记录点击数
+        $branch = new WorkOrderBranch();
+        $branch->where('order_code',$orderCode)->setInc('click_num',1);
+
         // 更新工单进粉
-        $order->fans_num += 1;
-        $order->fans_repeat_num += 0;
-        $order->today_fans_num += 1;
-        $order->save();
+//        $order->fans_num += 1;
+//        $order->fans_repeat_num += 0;
+//        $order->today_fans_num += 1;
+//        $order->save();
 
         // 记录当前账号粉丝数
-        $account['fans_num'] += 1;
-        $account['today_fans_repeat_num'] += 1;
-        $account['fans_repeat_num'] += 1;
-        $account['today_fans_num'] += 1;
-        $workAccount->update($account);
+//        $account['fans_num'] += 1;
+//        $account['today_fans_repeat_num'] += 1;
+//        $account['fans_repeat_num'] += 1;
+//        $account['today_fans_num'] += 1;
+//        $workAccount->update($account);
 
         //跳转连接
         return redirect($account['account_link']);
