@@ -11,7 +11,7 @@ class WorkOrderShare extends Base
     public function index(){
         $model = $this->logic->findOne($this->getParams(),false);
         if ($model){
-            $model->link = $this->request->domain().'/f/'.$model->order_code; //
+            $model->link = $this->request->domain().'/api/WorkOrder/fansList/'.$model->order_code; //
             return $this->fetch('detail',[
                 'model'=>$model
             ]);
