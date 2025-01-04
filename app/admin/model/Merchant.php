@@ -8,10 +8,13 @@ use app\common\model\BaseModel;
  */
 class Merchant extends BaseModel
 {
+    protected string $aliasName = 'merchant';
 
-     protected string $selectField = 'id,merchant_name,platform_type,port_num,resource,expire_time,remark,status,create_time';
+    protected array $searchField = ['merchant_name'];
 
-      protected array $searchField = ['merchant_name'];
+    protected string $selectField = 'merchant.*,merchant_user.username';
 
-    
+    protected array $join = [
+        ['merchant_user' , 'merchant.id = merchant_user.merchant_id','left']
+    ];
 }
