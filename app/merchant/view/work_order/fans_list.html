@@ -198,10 +198,10 @@
 
 
     function Share(){
-        var text = $('#shareLink').text();
-        var $tempInput = $('<input hidden="">');
-        $('body').append($tempInput);
-        $tempInput.val(text).select();
+        $('#shareLink').select();
+        // var $tempInput = $('<input hidden="">');
+        // $('body').append($tempInput);
+        // $tempInput.val(text).select();
         document.execCommand('copy');
         layer.alert("复制成功");
     }

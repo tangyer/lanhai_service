@@ -15,10 +15,9 @@ class ActiveCode extends Base
     public function portInfo(\app\api\logic\WorkOrder $workOrder): Json
     {
         $params = $this->getInput();
-        $platform = $params['platform_id'] ?? '';
         $token = $this->request->header('token');
         $info = Cache::get($token);
-        $workOrderInfo = $workOrder->findOne(['active_code' => $info['active_code'], 'platform' => $platform]);
+        $workOrderInfo = $workOrder->findOne(['active_code' => $info['active_code'], 'platform' => $info['platform']]);
         return $this->success([
             'online_ports' => $workOrderInfo['port_online_num'] ?? 0,
             'used_ports' => $workOrderInfo['port_use_num'] ?? 0,
