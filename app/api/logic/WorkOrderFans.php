@@ -63,9 +63,18 @@ class WorkOrderFans extends BaseLogic
             (new \app\api\model\WorkOrderAccount())->where('account_id',$data['order_account_id'])->update($updateData);
             // 更新工单统计
             (new \app\api\model\WorkOrder())->where('order_code',$data['order_code'])->update($updateData);
-            // 添加粉丝记录
-            $result = $this->create($data);
+            // 添加粉丝信息
+            $result = $workOrderFans->create($data);
             if(!$result) return false;
+            // 添加粉丝记录
+            (new \app\api\logic\WorkOrderFansRecord())->create([
+                'merchant_id' => $data['merchant_id'],
+                'order_code' => $data['order_code'],
+                'order_account_id' => $data['order_account_id'],
+                'order_fans_id' => $result->id,
+                'fans_type' => $data['fans_type'],
+                'create_time' => $data['create_time']
+            ]);
 
             // 提交事务
             Db::commit();

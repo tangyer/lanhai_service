@@ -21,11 +21,16 @@ class QuickReply extends BaseLogic
         }
         $resultData = [];
         $quickReplyData = $quickReplyData->toArray();
+        // 返回数据格式处理
         foreach ($quickReplyData as $key => $item){
             $resultData[$key]['name'] = $item['type_name'];
             foreach ($item['quickReply'] as $k => $value){
                 $resultData[$key]['quick_reply_content'][$k]['name'] = $value['reply_name'];
-                $resultData[$key]['quick_reply_content'][$k]['content'] = explode(';',$value['content'],);
+                $content = explode(';',$value['content']);
+                foreach ($content as $k1 => $val){
+                    $resultData[$key]['quick_reply_content'][$k]['text'][$k1]['content'] = $val;
+                    $resultData[$key]['quick_reply_content'][$k]['text'][$k1]['type'] = 'wz';
+                }
             }
         }
         return  $resultData;
