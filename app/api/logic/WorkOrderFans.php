@@ -66,10 +66,12 @@ class WorkOrderFans extends BaseLogic
             // 添加粉丝信息
             $result = $workOrderFans->create($data);
             if(!$result) return false;
+            $platform = (new WorkOrder())->getFieldValue(['order_code' => $data['order_code']], 'platform');
             // 添加粉丝记录
             (new \app\api\logic\WorkOrderFansRecord())->create([
                 'merchant_id' => $data['merchant_id'],
                 'order_code' => $data['order_code'],
+                'platform' => $platform ?? '',
                 'order_account_id' => $data['order_account_id'],
                 'order_fans_id' => $result->id,
                 'fans_type' => $data['fans_type'],
