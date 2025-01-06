@@ -16,6 +16,6 @@ class Resource extends BaseModel
     protected $softDel = false;
 
     protected array $join = [
-        ['ResourceType', 'Resource.resource_type = ResourceType.id']
+        ['resource_type', 'resource.resource_type = resource_type.id']
     ];
 }

@@ -9,11 +9,11 @@ use app\common\model\BaseModel;
 class Resource extends BaseModel
 {
 
-     protected string $selectField = 'id,merchant_id,resource_name,resource_type,content,resourceType.type_name';
+     protected string $selectField = 'id,merchant_id,resource_name,resource_type,content,resource_type.type_name';
 
      protected $softDel = false;
 
     protected array $join = [
-        ['resourceType', 'Resource.resource_type = resourceType.id']
+        ['resource_type', 'resource.resource_type = resource_type.id']
     ];
 }
