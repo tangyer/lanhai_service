@@ -82,7 +82,7 @@ class WorkOrderAccount extends Base
         try {
             $fansRecord = $workOrderAccount->findOne(['account_id' => $user_id]);
         }catch (\Exception $e){
-            
+            $fansRecord = [];
         }
 
         return $this->success([
