@@ -2,6 +2,7 @@
 declare (strict_types = 1);
 
 namespace app\api\controller;
+use app\common\provider\Result;
 use app\common\traits\AdminAction;
 use think\facade\Cache;
 use think\response\Json;
@@ -14,9 +15,9 @@ class ActiveCode extends Base
      */
     public function portInfo(\app\api\logic\WorkOrder $workOrder): Json
     {
-        $params = $this->getInput();
         $token = $this->request->header('token');
         $info = Cache::get($token);
+        if(!$info) return $this->error(Result::TOKEN_ERROR,'身份验证错误');
         $workOrderInfo = $workOrder->findOne(['active_code' => $info['active_code'], 'platform' => $info['platform']]);
         return $this->success([
             'online_ports' => $workOrderInfo['port_online_num'] ?? 0,
