@@ -22,7 +22,7 @@ class WorkOrderFans extends Base
         $user_id = $params['user_id'] ?? ''; // 主账号
         $activation_code = $params['activation_code'] ?? ''; // 激活码
         if(!$fans_account || !$user_id || !$activation_code){
-            $this->error(Result::PARAM_ERROR,'参数错误');
+            return $this->error(Result::PARAM_ERROR,'参数错误');
         }
         $result = $workOrderFans->findOne([
             'fans_account_code' => $fans_account,
@@ -73,7 +73,7 @@ class WorkOrderFans extends Base
         $fans_label = $params['fans_label'] ?? ''; // 粉丝标签
         $fans_remark = $params['fans_remark'] ?? ''; // 粉丝备注
         if(!$fans_account || !$user_id || !$activation_code){
-            $this->error(Result::PARAM_ERROR,'参数错误');
+            return $this->error(Result::PARAM_ERROR,'参数错误');
         }
         $result = $workOrderFans->updateFansInfo([
             'fans_account_code' => $fans_account,

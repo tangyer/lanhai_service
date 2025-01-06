@@ -23,4 +23,18 @@ class WorkOrder extends BaseLogic
 
     }
 
+    public function updatePortNum(string $order_code, int $num = 1, bool $op = true)
+    {
+        $info = $this->findOne(['order_code' => $order_code]);
+        if($op){
+            $info->port_use_num += $num;
+            $info->port_online_num += $num;
+        }else{
+            $info->port_use_num -= $num;
+            $info->port_online_num -= $num;
+        }
+        $info->save();
+        return true;
+    }
+
 }

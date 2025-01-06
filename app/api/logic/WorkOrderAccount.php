@@ -3,9 +3,37 @@ declare (strict_types = 1);
 
 namespace app\api\logic;
 use app\common\logic\BaseLogic;
+use think\Exception;
 
 class WorkOrderAccount extends BaseLogic
 {
+    /**
+     * 添加主账号信息
+     * @return Bool
+     */
+    public function addMainAccount(array $params): bool
+    {
+        $params['online_status'] = 1;
+        $params['port_status'] = 1;
+        $params['online_time'] = time();
+        $params['create_time'] = time();
+        $id = $this->getFieldValue(['order_code' => $params['order_code'], 'account_id' => $params['account_id']], 'id');
+        if($id){
+            $result = $this->update([
+                'id' => $id,
+                'online_status' => $params['online_status'],
+                'port_status' => $params['port_status'],
+                'online_time' => $params['online_time'],
+                'token' => $params['token']
+            ]);
+        }else{
+            $result = $this->create($params);
+        }
+
+        if(!$result) return false;
+        return true;
+    }
+
     /**
      * 批量下线
      * @return Bool

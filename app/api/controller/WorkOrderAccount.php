@@ -11,6 +11,40 @@ use think\response\Json;
 class WorkOrderAccount extends Base
 {
     /**
+     * 添加主账号信息
+     * @return Json
+     */
+    public function addMainAccount(\app\api\logic\WorkOrderAccount $workOrderAccount)
+    {
+        $params = $this->getInput();
+        $token = $this->request->header('token');
+        $info = Cache::get($token);
+        if(!$info) return $this->error(Result::TOKEN_ERROR,'身份验证错误');
+        $phone_number = $params['phone_number'] ?? ''; // 手机号
+        $nick_name = $params['nick_name'] ?? ''; // 昵称
+        $platform_id = $params['platform_id'] ?? ''; // 平台
+        $link = $params['link'] ?? '';// 主号链接
+        $order_number = $params['order_number'] ?? ''; // 工单号
+        $user_id = $params['user_id'] ?? ''; // 账号
+        if (!$phone_number || !$nick_name || !$link || !$order_number || !$user_id) {
+            return $this->error(Result::PARAM_ERROR,'参数错误');
+        }
+        $result = $workOrderAccount->addMainAccount([
+            'account_mobile' => $phone_number,
+            'account_name' => $nick_name,
+            'order_code' => $order_number,
+            'account_id' => $user_id,
+            'account_link' => $link,
+            'merchant_id' => $info['merchant_id'],
+            'active_code' => $info['active_code'],
+            'token' => $token
+        ]);
+        if(!$result) return $this->error(Result::FAIL_ERROR,'操作失败');
+
+        return $this->success();
+    }
+
+    /**
      * 批量下线
      * @return Json
      */
@@ -28,7 +62,7 @@ class WorkOrderAccount extends Base
             'online_status' => $online_status,
             'offline_time' => strtotime($last_login_time)
         ]);
-        if(!$result) $this->error(Result::FAIL_ERROR,'操作失败');
+        if(!$result) return $this->error(Result::FAIL_ERROR,'操作失败');
         return $this->success();
     }
 
