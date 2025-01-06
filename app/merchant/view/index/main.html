@@ -1,15 +1,298 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<div class="wrapper wrapper-content">
+<!--<div class="container-div">-->
+<!--    <div class="row">-->
+<!--        <div class="col-sm-4 search-collapse" id="echarts-line-chart">-->
 
+<!--        </div>-->
+
+
+<!--    </div>-->
+<!--</div>-->
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="echarts" id="echarts-pie-chart"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="echarts" id="echarts-line-chart"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="echarts" id="echarts-bar-chart"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </div>
-</body>
-</html>
+
+{include file="public/js" /}
+<script src="/static/ajax/libs/report/echarts/echarts-all.min.js"></script>
+<script>
+    $(function(){
+        var pieChart = echarts.init(document.getElementById("echarts-pie-chart"));
+        var pieoption = {
+            title : {
+                text: '粉丝统计',
+                subtext: '',
+                x:'center'
+            },
+            tooltip : {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            legend: {
+                orient : 'vertical',
+                x : 'left',
+                data:['总粉丝数','新粉数量','老粉数量','TG粉丝','WS粉丝']
+            },
+            calculable : true,
+            series : [
+                {
+                    name:'访问来源',
+                    type:'pie',
+                    radius : '55%',
+                    center: ['50%', '60%'],
+                    data:[
+                        {value: {$fansAll.total}, name:'总粉丝数'},
+                        {value:{$fansAll.newFans}, name:'新粉数量'},
+                        {value:{$fansAll.oldFans}, name:'老粉数量'},
+                        {value:{$fansAll.tgFans}, name:'TG粉丝'},
+                        {value:{$fansAll.wsFans}, name:'WS粉丝'}
+                    ]
+                }
+            ]
+        };
+        pieChart.setOption(pieoption);
+        $(window).resize(pieChart.resize);
+
+        var dateStr = [];
+        {volist name="dateArr" id="daterr"}
+            dateStr.push("{$daterr}")
+        {/volist}
+
+        var customerStr = [];
+        {volist name="getCustomer" id="customer"}
+            customerStr.push("{$customer}")
+        {/volist}
+
+        var hospitality = [];
+        {volist name="hospitality" id="hospitalitys"}
+            hospitality.push("{$hospitalitys}")
+        {/volist}
 
 
+        var lineChart = echarts.init(document.getElementById("echarts-line-chart"));
+        var lineoption = {
+            title : {
+                text: '一周客户统计'
+            },
+            tooltip : {
+                trigger: 'axis'
+            },
+            legend: {
+                data:['获客量','待客量']
+            },
+            grid:{
+                x:40,
+                x2:40,
+                y2:24
+            },
+            calculable : true,
+            xAxis : [
+                {
+                    type : 'category',
+                    boundaryGap : false,
+                    data : dateStr
+                }
+            ],
+            yAxis : [
+                {
+                    type : 'value',
+                    axisLabel : {
+                        formatter: '{value}'
+                    }
+                }
+            ],
+            series : [
+                {
+                    name:'获客量',
+                    type:'line',
+                    data:customerStr,
+                    markPoint : {
+                        data : [
+                            {type : 'max', name: '最大值'},
+                            {type : 'min', name: '最小值'}
+                        ]
+                    },
+                    markLine : {
+                        data : [
+                            {type : 'average', name: '平均值'}
+                        ]
+                    }
+                },
+                {
+                    name:'待客量',
+                    type:'line',
+                    data:hospitality,
+                    markPoint : {
+                        data : [
+                            {type : 'max', name: '最大值'},
+                            {type : 'min', name: '最小值'}
+                        ]
+                    },
+                    markLine : {
+                        data : [
+                            {type : 'average', name : '平均值'}
+                        ]
+                    }
+                }
+            ]
+        };
+        lineChart.setOption(lineoption);
+        $(window).resize(lineChart.resize);
 
+        var hourStr = [];
+        {volist name="hoursArr" id="hour"}
+            hourStr.push("{$hour}")
+        {/volist}
+        var visitFans = [];
+        var newFans = [];
+        var oldFans = [];
+        var tgFans = [];
+        var wsFans = [];
+        {volist name="yesterdayVisit" id="visit"}
+            visitFans.push("{$visit.total}")
+            newFans.push("{$visit.newFans}")
+            oldFans.push("{$visit.oldFans}")
+            tgFans.push("{$visit.tgFans}")
+            wsFans.push("{$visit.wsFans}")
+        {/volist}
+        var barChart = echarts.init(document.getElementById("echarts-bar-chart"));
+        var baroption = {
+            title : {
+                text: '昨日访客记录'
+            },
+            tooltip : {
+                trigger: 'axis'
+            },
+            legend: {
+                data:['访问量','新粉数量','老粉数量','TG粉丝','WS粉丝']
+            },
+            grid:{
+                x:30,
+                x2:40,
+                y2:24
+            },
+            calculable : true,
+            xAxis : [
+                {
+                    type : 'category',
+                    data : hourStr
+                }
+            ],
+            yAxis : [
+                {
+                    type : 'value'
+                }
+            ],
+            series : [
+                {
+                    name:'访问量',
+                    type:'bar',
+                    data:visitFans,
+                    markPoint : {
+                        data : [
+                            {type : 'max', name: '最大值'},
+                            {type : 'min', name: '最小值'}
+                        ]
+                    },
+                    markLine : {
+                        data : [
+                            {type : 'average', name: '平均值'}
+                        ]
+                    }
+                },
+                {
+                    name:'新粉数量',
+                    type:'bar',
+                    data:newFans,
+                    // markPoint : {
+                    //     data : [
+                    //         {type : 'max', name: '最大值'},
+                    //         {type : 'min', name: '最小值'}
+                    //     ]
+                    // },
+                    // markLine : {
+                    //     data : [
+                    //         {type : 'average', name : '平均值'}
+                    //     ]
+                    // }
+                },
+                {
+                    name:'老粉数量',
+                    type:'bar',
+                    data:oldFans,
+                    // markPoint : {
+                    //     data : [
+                    //         {type : 'max', name: '最大值'},
+                    //         {type : 'min', name: '最小值'}
+                    //     ]
+                    // },
+                    // markLine : {
+                    //     data : [
+                    //         {type : 'average', name : '平均值'}
+                    //     ]
+                    // }
+                },
+                {
+                    name:'TG粉丝',
+                    type:'bar',
+                    data:tgFans,
+                    // markPoint : {
+                    //     data : [
+                    //         {type : 'max', name: '最大值'},
+                    //         {type : 'min', name: '最小值'}
+                    //     ]
+                    // },
+                    // markLine : {
+                    //     data : [
+                    //         {type : 'average', name : '平均值'}
+                    //     ]
+                    // }
+                },
+                {
+                    name:'WS粉丝',
+                    type:'bar',
+                    data:wsFans,
+                    // markPoint : {
+                    //     data : [
+                    //         {type : 'max', name: '最大值'},
+                    //         {type : 'min', name: '最小值'}
+                    //     ]
+                    // },
+                    // markLine : {
+                    //     data : [
+                    //         {type : 'average', name : '平均值'}
+                    //     ]
+                    // }
+                },
+            ]
+        };
+        barChart.setOption(baroption);
+        window.onresize = barChart.resize;
+
+
+    })
+</script>

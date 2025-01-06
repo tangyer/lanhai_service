@@ -14,6 +14,15 @@ use util\AesCBC;
 
 class MerchantUser extends BaseLogic
 {
+    public function getList(array $where = [])
+    {
+        $where['merchant_id'] = get_user()['merchant_id'];
+        return $this->model->getList($where)->each(function($item, $key){
+            $item->last_login_time = $item->last_login_time > 0 ? get_date($item->last_login_time) : 0;
+            $item->last_login_ip = $item->last_login_ip > 0 ? long2ip($item->last_login_ip) : 0;
+        });
+    }
+
     /**
      * 根据用户名获取用户
      * @param string $username
@@ -58,6 +67,10 @@ class MerchantUser extends BaseLogic
                         'platform' => $merchant->platform_type,
                         'port_num' => $merchant->port_num,
                     ]);
+                    $model->last_login_time = time();
+                    $model->last_login_ip = ip2long($request->ip());;
+                    $model->save();
+
                     return true;
                 } else {
                     $model->fail_times += 1;
