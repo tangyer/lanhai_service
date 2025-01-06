@@ -4,6 +4,7 @@ declare (strict_types = 1);
 namespace app\api\logic;
 use app\common\logic\BaseLogic;
 use think\Exception;
+use think\facade\Db;
 
 class WorkOrderAccount extends BaseLogic
 {
@@ -42,10 +43,32 @@ class WorkOrderAccount extends BaseLogic
     {
         $data = [
             'online_status' => $params['online_status'],
-            'offline_time' => $params['offline_time']
+            'port_status' => 0,
+            'offline_time' => $params['offline_time'],
+            'token' => ''
         ];
-        $result = (new \app\api\model\WorkOrderAccount())->where(['active_code' => $params['active_code']])->update($data);
+        $workOrderData = (new \app\api\model\WorkOrderAccount())->field('order_code,count(id) as number')
+            ->where([
+                'active_code' => $params['active_code'],
+                'token' => $params['token']
+            ])
+            ->group('order_code')
+            ->select();
+
+        $result = (new \app\api\model\WorkOrderAccount())
+            ->where([
+                'active_code' => $params['active_code'],
+                'token' => $params['token']
+            ])
+            ->update($data);
         if(!$result) return false;
+
+        foreach ($workOrderData as $key => $item){
+            (new \app\api\model\WorkOrder)->where('order_code', $item->order_code)
+                ->dec('port_use_num', $item->number)
+                ->dec('port_online_num', $item->number)
+                ->update();
+        }
         return true;
     }
 

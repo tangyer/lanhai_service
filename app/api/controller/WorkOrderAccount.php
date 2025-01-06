@@ -51,16 +51,20 @@ class WorkOrderAccount extends Base
     public function batchOffline(\app\api\logic\WorkOrderAccount $workOrderAccount)
     {
         $params = $this->getInput();
+        $token = $this->request->header('token');
+        $info = Cache::get($token);
+        if(!$info) return $this->error(Result::TOKEN_ERROR,'身份验证错误');
         $active_code = $params['code'] ?? 0; // 激活码
-        $online_status = $params['online_status'] ?? ''; // 状态 0 主动离线 1 在线  2 批量下线
+        $online_status = $params['online_status'] ?? ''; // 状态 0 离线
         $last_login_time = $params['last_login_time'] ?? date('Y-m-d H:i:s'); // 下线时间
         if (!$active_code || !$last_login_time) {
             return $this->error(Result::PARAM_ERROR,'参数错误');
         }
         $result = $workOrderAccount->updateBatchOffline([
-            'active_code' => $active_code,
+            'active_code' => $info['active_code'],
             'online_status' => $online_status,
-            'offline_time' => strtotime($last_login_time)
+            'offline_time' => strtotime($last_login_time),
+            'token' => $token
         ]);
         if(!$result) return $this->error(Result::FAIL_ERROR,'操作失败');
         return $this->success();
@@ -75,7 +79,12 @@ class WorkOrderAccount extends Base
         $params = $this->getInput();
         $user_id = $params['user_id'] ?? 0;
         if (!$user_id) return $this->error(Result::PARAM_ERROR,'参数错误');
-        $fansRecord = $workOrderAccount->findOne(['account_id' => $user_id]);
+        try {
+            $fansRecord = $workOrderAccount->findOne(['account_id' => $user_id]);
+        }catch (\Exception $e){
+            
+        }
+
         return $this->success([
             'news_fans_number' => $fansRecord->today_fans_num ?? 0, // 当日置零后进粉总数
             'repeat_fans_number' => $fansRecord->today_fans_repeat_num ?? 0, // 当日置零后重粉总数
