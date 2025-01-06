@@ -21,7 +21,7 @@ class WorkOrderAccount extends Base
         $info = Cache::get($token);
         if(!$info) return $this->error(Result::TOKEN_ERROR,'身份验证错误');
         $phone_number = $params['phone_number'] ?? ''; // 手机号
-        $nick_name = $params['nick_name'] ?? ''; // 昵称
+        $nick_name = $params['nickname'] ?? ''; // 昵称
         $platform_id = $params['platform_id'] ?? ''; // 平台
         $link = $params['link'] ?? '';// 主号链接
         $order_number = $params['order_number'] ?? ''; // 工单号
@@ -111,10 +111,19 @@ class WorkOrderAccount extends Base
         $token = $this->request->header('token');
         $info = Cache::get($token);
         if(!$info) return $this->error(Result::TOKEN_ERROR,'身份验证错误');
-        $platform = $params['platform'] ?? '';
+        $platform = strtolower($params['platform']) ?? '';
         $order_code = $params['order_number'] ?? '';
         if (!$platform) return $this->error(Result::PARAM_ERROR,'参数错误');
-        $fansRecord = $workOrder->findOne(['order_code' => $order_code,'platform' => $platform]);
+        try {
+            $fansRecord = $workOrder->findOne(['order_code' => $order_code,'platform' => $platform]);
+        }catch (\Exception $e){
+            return $this->success([
+                'new_fans_number' => 0, // 当日置零后进粉总数
+                'repeat_fans_number' => 0, // 当日置零后重粉总数
+                'all_fans_number' => 0, //  工单重置后进粉总数
+                'all_repeat_fans_number' => 0, // 工单重置后重粉总数
+            ]);
+        }
         return $this->success([
             'new_fans_number' => $fansRecord->today_fans_num ?? 0, // 当日置零后进粉总数
             'repeat_fans_number' => $fansRecord->today_fans_repeat_num ?? 0, // 当日置零后重粉总数
