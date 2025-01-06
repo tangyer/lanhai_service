@@ -17,7 +17,7 @@ class QuickReply extends BaseLogic
             ->where('merchant_id', $info['merchant_id'])
             ->select();
         if($quickReplyData->isEmpty()){
-            return false;
+            return [];
         }
         $resultData = [];
         $quickReplyData = $quickReplyData->toArray();

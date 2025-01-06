@@ -17,7 +17,7 @@ class QuickReply extends Base
         $info = Cache::get($token);
         if(!$info) return $this->error(Result::TOKEN_ERROR,'身份验证错误');
         $result = $quickReply->getDesktopQuickReply($info);
-
+        
         return $this->success($result);
     }
 }
