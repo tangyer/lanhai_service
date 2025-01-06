@@ -14,19 +14,20 @@ class ActiveCode extends Base
      * 获取在线/占用/分配端口数
      * @return Json
      */
-    public function portInfo(\app\api\logic\WorkOrder $workOrder): Json
+    public function portInfo(\app\api\model\WorkOrder $workOrder): Json
     {
         $token = $this->request->header('token');
         $info = Cache::get($token);
         if(!$info) return $this->error(Result::TOKEN_ERROR,'身份验证错误');
-        try {
-            $workOrderInfo = $workOrder->findOne(['active_code' => $info['active_code'], 'platform' => $info['platform']]);
-        } catch (\Exception $e){
-        }
+
+        $workOrderInfo = $workOrder->field('active_code,SUM(port_use_num) port_use_num,SUM(port_online_num) port_online_num')
+            ->where(['active_code' => $info['active_code']])
+            ->group('active_code')
+            ->select();
         return $this->success([
             'online_ports' => $workOrderInfo['port_online_num'] ?? 0,
             'used_ports' => $workOrderInfo['port_use_num'] ?? 0,
-            'ports' => $workOrderInfo['port_num'] ?? 0,
+            'ports' => $info['port_num'] ?? 0,
         ]);
     }
 
