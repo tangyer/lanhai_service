@@ -95,10 +95,10 @@ class WorkOrderFans extends BaseLogic
     public function updateFansInfo(array $data): bool
     {
         $info = $this->findOne([
-            'fans_account_code' => $data['fans_account_code'],
-            'order_account_id' => $data['order_account_id'],
+            'id' => $data['fans_id'],
             'active_code' => $data['active_code'],
         ]);
+        $info->fans_account_code = $data['fans_account_code'];
         $info->fans_account_name = $data['fans_account_name'];
         $info->fans_flag = $data['fans_flag'];
         $info->remark = $data['remark'];

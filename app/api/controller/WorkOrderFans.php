@@ -32,13 +32,15 @@ class WorkOrderFans extends Base
             ]);
         }catch (\Exception $e){
             return $this->success([
+                'fans_id' => '',
                 'fans_username' => '',
                 'fans_nickname' => '',
                 'fans_label' => '',
-                'fans_mark' => ''
+                'fans_mark' => '',
             ]);
         }
         return  $this->success([
+            'fans_id' => $result->id,
             'fans_username' => $result->fans_account_name,
             'fans_nickname' => $result->fans_account_name,
             'fans_label' => $result->fans_flag,
@@ -82,20 +84,24 @@ class WorkOrderFans extends Base
     public function updateFansInfo(\app\api\logic\WorkOrderFans $workOrderFans): Json
     {
         $params = $this->getInput();
-        $fans_account = $params['fans_account'] ?? ''; // 用户名/粉丝账号
-        $user_id = $params['user_id'] ?? ''; // 主账号
-        $activation_code = $params['activation_code'] ?? ''; // 激活码
-        $fans_account_name = $params['fans_account_name'] ?? ''; // 粉丝名称
+        $token = $this->request->header('token');
+        $info = Cache::get($token);
+        if(!$info) return $this->error(Result::TOKEN_ERROR,'身份验证错误');
+//        $fans_account = $params['fans_account'] ?? ''; // 用户名/粉丝账号
+        $fans_id = $params['fans_id'] ?? ''; // 主账号
+//        $activation_code = $params['activation_code'] ?? ''; // 激活码
+        $fans_account_code = $params['fans_username'] ?? ''; // 用户名
+        $fans_nickname = $params['fans_nickname'] ?? ''; // 粉丝名称
         $fans_label = $params['fans_label'] ?? ''; // 粉丝标签
         $fans_remark = $params['fans_remark'] ?? ''; // 粉丝备注
-        if(!$fans_account || !$user_id || !$activation_code){
+        if(!$fans_id || !$fans_account_code || $fans_nickname || !$fans_label || $fans_remark){
             return $this->error(Result::PARAM_ERROR,'参数错误');
         }
         $result = $workOrderFans->updateFansInfo([
-            'fans_account_code' => $fans_account,
-            'order_account_id' =>  $user_id,
-            'active_code' => $activation_code,
-            'fans_account_name' => $fans_account_name,
+            'fans_id' => $fans_id,
+            'active_code' => $info['active_code'],
+            'fans_account_code' => $fans_account_code,
+            'fans_account_name' => $fans_nickname,
             'fans_flag' => $fans_label,
             'remark' => $fans_remark
         ]);
