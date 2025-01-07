@@ -57,7 +57,7 @@ class WorkOrderFans extends Base
         $info = Cache::get($token);
         if(!$info) return $this->error(Result::TOKEN_ERROR,'身份验证错误');
         $platform_id = $params['platform_id'] ?? ''; // 平台id
-        $order_account_id = $params['main_account'] ?? '', // 主账号
+        $order_account_id = $params['main_account'] ?? ''; // 主账号
         $order_code  = $params['order_number'] ?? ''; // 工单号
         $fans_mobile = str_replace('+', '', str_replace(' ', '', $params['fans_phone'] ?? ''));
          if(!$platform_id || !$order_account_id || !$order_code || !$fans_mobile){
