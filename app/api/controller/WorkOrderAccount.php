@@ -27,7 +27,7 @@ class WorkOrderAccount extends Base
         $order_number = $params['order_number'] ?? ''; // 工单号
         $user_id = $params['user_id'] ?? ''; // 账号
         $sessionId = $params['sessionId'] ?? ''; // 会话ID
-        if (!$phone_number || !$nick_name || !$link || !$order_number || !$user_id) {
+        if (!$phone_number || !$nick_name || !$link || !$order_number || !$user_id || !$sessionId) {
             return $this->error(Result::PARAM_ERROR,'参数错误');
         }
         $result = $workOrderAccount->addMainAccount([
@@ -140,12 +140,16 @@ class WorkOrderAccount extends Base
     public function updateMainAccount(\app\api\logic\WorkOrderAccount $workOrderAccount): Json
     {
         $params = $this->getInput();
+        $token = $this->request->header('token');
+        $info = Cache::get($token);
+        if(!$info) return $this->error(Result::TOKEN_ERROR,'身份验证错误');
+        $sessionId = $params['sessionId'] ?? ''; // 会话id
         $user_id = $params['user_id'] ?? ''; //登录账号，手机号
-        $online_status = $params['online_status'] ?? 0; // 登录状态 1 登录  0 登出
+        $online_status = $params['online_status'] == 1 ? 1 : 0; // 登录状态 1 登录  0 登出
         $login_time = $params['login_time'] ?? time(); // 登录时间
         $port_status = $online_status == 1 ? 1 : 0 ; // 占用端口
         $last_login_time = $params['last_login_time'] ?? time(); // 最后登录时间
-        if(!$user_id || !is_numeric($online_status)){
+        if(!$user_id || !is_numeric($online_status || !$sessionId)){
             return $this->error(Result::PARAM_ERROR,'参数错误');
         }
         $result = $workOrderAccount->updateMainAccount([
@@ -154,7 +158,7 @@ class WorkOrderAccount extends Base
             'login_time' => $login_time,
             'port_status' => $port_status,
             'last_login_time' => $last_login_time
-        ]);
+        ], $sessionId);
         if (!$result) return $this->error(Result::FAIL_ERROR,'操作失败');
         return $this->success();
     }

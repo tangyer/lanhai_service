@@ -19,6 +19,7 @@ class WorkOrderAccount extends BaseLogic
         $params['online_time'] = time();
         $params['create_time'] = time();
         $id = $this->getFieldValue(['order_code' => $params['order_code'], 'account_id' => $params['account_id']], 'id');
+
         if($id){
             $result = $this->update([
                 'id' => $id,
@@ -84,14 +85,32 @@ class WorkOrderAccount extends BaseLogic
      * 更新上线时间以及登录状态
      * @return Bool
      */
-    public function updateMainAccount(array $params): bool
+    public function updateMainAccount(array $params, string $sessionId): bool
     {
-        $info = $this->findOne(['account_mobile' => $params['account_mobile']]);
+        // 根据会话id 查询关联主账号
+        $sessionInfo = (new SessionRecords())->findOne(['sessionId' => $sessionId]);
+        $info = $this->findOneById($sessionInfo->order_account_id);
         $info->online_status = $params['online_status'];
         $info->online_time = !empty($params['last_login_time']) ? $params['last_login_time'] : $params['login_time'];
         $info->port_status = $params['port_status'];
-        $result = $info->save();
-        if(!$result) return false;
+        try {
+            // 开始事务
+            Db::startTrans();
+            $result = $info->save();
+            if(!$result) return false;
+            // 在线端口 +1
+            if($params['online_status'] == 1){
+                (new \app\api\model\WorkOrder())->inc('port_online_num', 1)->update();
+            }else{
+                // 在线端口 -1
+                (new \app\api\model\WorkOrder())->dec('port_online_num', 1)->update();
+            }
+        }catch (\Exception $e){
+            // 回滚事务
+            Db::rollback();
+            return false;
+        }
+
         return true;
     }
 }
