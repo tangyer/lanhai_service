@@ -10,6 +10,10 @@ class SessionRecords extends Base
 {
     use ApiAction;
 
+    protected array $middleware = [
+        'auth' => ['except' => ['deleteAllSession']],
+    ];
+
     /**
      * @param \app\api\model\WorkOrder $workOrder
      * @return \think\response\Json
@@ -85,4 +89,24 @@ class SessionRecords extends Base
         return $this->success($res);
     }
 
+    /**
+     * @param \app\api\logic\SessionRecords $sessionRecords
+     * @return \think\response\Json
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     * 批量删除会话
+     */
+    public function deleteAllSession(\app\api\logic\SessionRecords $sessionRecords)
+    {
+        $input = $this->getInput();
+        $sessionId = $input['sessionId'] ?? [];
+        $code = $input['code'] ?? '';
+
+        foreach ($sessionId as $v){
+            $sessionRecords->deleteSession(['sessionId'=>$v,$code => $code]);
+        }
+
+        return $this->success();
+    }
 }

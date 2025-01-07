@@ -59,21 +59,34 @@ class SessionRecords extends BaseLogic
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\DbException
      * @throws \think\db\exception\ModelNotFoundException
-     * 删除会话
+     * 删除单个会话
      */
     public function deleteSession(array $data)
     {
         return $this->deleteSessionBySessionId($data['sessionId']);
     }
 
-    public function deleteSessionBySessionId(string $sessionId)
+    /**
+     * @param string $sessionId
+     * @param string $code
+     * @return array
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     * 删除会话
+     */
+    public function deleteSessionBySessionId(string $sessionId,string $code = '')
     {
         // 查询会话
         $session = $this->model->findOne(['sessionId'=>$sessionId]);
 
+        $where = ['sessionId'=>$sessionId];
+        if(!empty($code)){
+            $where['active_code'] = $code;
+        }
         // 查询token相关工单
         $order = (new \app\admin\model\WorkOrder())
-            ->where(['order_code'=>$session->order_code])
+            ->where($where)
             ->find();
 
 
