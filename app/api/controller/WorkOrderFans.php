@@ -95,7 +95,7 @@ class WorkOrderFans extends Base
         $fans_nickname = $params['fans_nickname'] ?? ''; // 粉丝名称
         $fans_label = $params['fans_label'] ?? ''; // 粉丝标签
         $fans_remark = $params['fans_remark'] ?? ''; // 粉丝备注
-        if(!$fans_id || !$fans_account_code || $fans_nickname || !$fans_label || $fans_remark){
+        if(!$fans_id){
             return $this->error(Result::PARAM_ERROR,'参数错误');
         }
         $result = $workOrderFans->updateFansInfo([
