@@ -8,6 +8,7 @@ use app\common\model\BaseModel;
  */
 class ActiveCode extends BaseModel
 {
+    protected string $aliasName = 'ac';
     // 设置字段类型
     protected $type = [
         'expire_time' => 'timestamp:Y-m-d H:i:s'
@@ -17,7 +18,7 @@ class ActiveCode extends BaseModel
      protected array $searchField = ['merchant_id','active_code','platform','merchant.merchant_name'];
 
     protected array $join = [
-        ['merchant' , 'merchant.id = active_code.merchant_id'],
-        ['active_code_group' , 'active_code_group.id = active_code.active_code_group_id']
+        ['merchant' , 'merchant.id = ac.merchant_id'],
+        ['active_code_group' , 'active_code_group.id = ac.active_code_group_id']
     ];
 }
