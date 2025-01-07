@@ -72,8 +72,8 @@ class WorkOrderAccount extends BaseLogic
         $orderAccountId = (new \app\api\model\SessionRecords())
             ->whereIn('sessionId',$params['sessionId'])
             ->column('order_account_id');
-
-        if (!$orderAccountId) return false;
+        
+        if (!$orderAccountId) return true;
         try {
             // 开始事务
             Db::startTrans();
