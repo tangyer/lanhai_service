@@ -22,7 +22,7 @@ class Share extends BaseController
             return $this->error(Result::PARAM_ERROR,'Error');
         }
         // 获取工单下的账号
-        $accountAll = $workAccount->getAll(['order_code' => $orderCode,'online_status'=>1,'port_status'=>0])->toArray();
+        $accountAll = $workAccount->getAll(['order_code' => $orderCode,'online_status'=>1,'port_status'=>1])->toArray();
         if(empty($accountAll)){
             return $this->error(Result::PARAM_ERROR,'Error');
         }
