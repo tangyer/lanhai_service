@@ -18,6 +18,6 @@ class ActiveCode extends BaseModel
 
     protected array $join = [
         ['merchant' , 'merchant.id = ActiveCode.merchant_id'],
-        ['active_code_group' , 'active_code_group.id = ActiveCode.active_code_group_id']
+        ['active_code_group' , 'active_code_group.id = active_code.active_code_group_id']
     ];
 }
