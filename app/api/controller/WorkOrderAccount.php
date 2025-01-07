@@ -153,7 +153,7 @@ class WorkOrderAccount extends Base
             return $this->error(Result::PARAM_ERROR,'参数错误');
         }
         $result = $workOrderAccount->updateMainAccount([
-            'account_mobile' => $user_id,
+            'account_id' => $user_id,
             'online_status' => $online_status,
             'login_time' => $login_time,
             'port_status' => $port_status,

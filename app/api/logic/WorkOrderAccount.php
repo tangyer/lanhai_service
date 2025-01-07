@@ -20,27 +20,37 @@ class WorkOrderAccount extends BaseLogic
         $params['create_time'] = time();
         $id = $this->getFieldValue(['order_code' => $params['order_code'], 'account_id' => $params['account_id']], 'id');
 
-        if($id){
-            $result = $this->update([
-                'id' => $id,
-                'online_status' => $params['online_status'],
-                'port_status' => $params['port_status'],
-                'online_time' => $params['online_time'],
+        try {
+            // 开始事务
+            Db::startTrans();
+            if($id){
+                // 存在 更新
+                $result = $this->update([
+                    'id' => $id,
+                    'online_status' => $params['online_status'],
+                    'port_status' => $params['port_status'],
+                    'online_time' => $params['online_time'],
+                    'token' => $params['token']
+                ]);
+            }else{
+                // 不存在 新增
+                $result = (new \app\api\model\WorkOrder())->create($params);
+                $id = $result->id;
+            }
+
+            // 更新会话信息
+            (new \app\api\model\SessionRecords())->where('sessionId', $sessionId)->update([
+                'order_account_id' => $id,
+                'account_id' => $params['account_id'],
                 'token' => $params['token']
             ]);
-        }else{
-            $result = (new \app\api\model\WorkOrder())->create($params);
-            $id = $result->id;
+            if(!$result) return false;
+
+        }catch (\Exception $e){
+            // 回滚事务
+            Db::rollback();
+            return false;
         }
-
-        // 更新会话
-        (new \app\api\model\SessionRecords())->where('sessionId', $sessionId)->update([
-            'order_account_id' => $id,
-            'account_id' => $params['account_id'],
-            'token' => $params['token']
-        ]);
-
-        if(!$result) return false;
         return true;
     }
 
