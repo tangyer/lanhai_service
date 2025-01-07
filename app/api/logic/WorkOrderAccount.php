@@ -67,10 +67,12 @@ class WorkOrderAccount extends BaseLogic
             'offline_time' => time(),
             'token' => ''
         ];
+
         // 根据会话Id 查询主账号id
         $orderAccountId = (new \app\api\model\SessionRecords())
             ->whereIn('sessionId',$params['sessionId'])
             ->column('order_account_id');
+
         if (!$orderAccountId) return false;
         try {
             // 开始事务
@@ -81,10 +83,15 @@ class WorkOrderAccount extends BaseLogic
                 ->update($data);
 
             if(!$result) return false;
-            // 在线端口 减掉
-            (new \app\api\model\WorkOrder)->where('order_code', $params['order_code'])
-                ->dec('port_use_num', count($orderAccountId))
-                ->update();
+            $workOrderAccountData = (new \app\api\model\WorkOrderAccount())->field('order_code,count(id) number')
+                ->whereIn('id',$orderAccountId)
+                ->group('order_code')->select();
+            foreach($workOrderAccountData as $item){
+                // 在线端口 减掉
+                (new \app\api\model\WorkOrder)->where('order_code', $item->order_code)
+                    ->dec('port_use_num', $item->number)
+                    ->update();
+            }
 
             // 提交事务
             Db::commit();

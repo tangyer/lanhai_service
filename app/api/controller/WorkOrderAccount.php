@@ -66,7 +66,8 @@ class WorkOrderAccount extends Base
         $result = $workOrderAccount->updateBatchOffline([
             'sessionId' => $sessionId,
             'order_code' => $order_code,
-            'token' => $token
+            'token' => $token,
+            'active_code' => $info['active_code']
         ]);
         if(!$result) return $this->error(Result::FAIL_ERROR,'操作失败');
         return $this->success();
