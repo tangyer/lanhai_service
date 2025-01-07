@@ -34,7 +34,7 @@ class WorkOrderAccount extends BaseLogic
                 ]);
             }else{
                 // 不存在 新增
-                $result = (new \app\api\model\WorkOrder())->create($params);
+                $result = (new \app\api\model\WorkOrderAccount())->create($params);
                 $id = $result->id;
             }
 
