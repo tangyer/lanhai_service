@@ -73,7 +73,7 @@ class WorkOrderFans extends Base
 //            'contact' => $fans_mobile, // 联系方式
             'fans_mobile' => $fans_mobile, // 手机号
             'fans_account_id' => $fans_mobile, // 账号
-            'fans_nickname' => $fans_nickname // 粉丝名称
+            'fans_account_name' => $fans_nickname // 粉丝名称
         ];
         $result = $workOrderFans->register($info, $data);
         if (!$result) return $this->error(Result::FAIL_ERROR,'操作失败');
