@@ -6,6 +6,7 @@ namespace app\api\controller;
 
 use app\common\provider\Result;
 use think\facade\Cache;
+use think\facade\Log;
 use think\response\Json;
 
 class WorkOrderAccount extends Base
@@ -69,6 +70,7 @@ class WorkOrderAccount extends Base
             'token' => $token,
             'active_code' => $info['active_code']
         ]);
+        Log::write('批量下线'.$result,'info',[]);
         if(!$result) return $this->error(Result::FAIL_ERROR,'操作失败');
         return $this->success();
     }
