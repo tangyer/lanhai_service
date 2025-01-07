@@ -16,9 +16,9 @@ class Baidu implements ITransEngine
 
         $from = 'auto'; // 自动识别
 
-        $appId = '20241218002231642';
+        $appId = '20221014001393149';
 
-        $secret = 'lDDYOv_2JRe4zW_uAMod';
+        $secret = '3CapSWmVZVCkyddK45Ry';
 
         $salt = generate_rand_str();
 
