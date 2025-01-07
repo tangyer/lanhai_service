@@ -12,7 +12,7 @@ class WorkOrderAccount extends BaseLogic
      * 添加主账号信息
      * @return Bool
      */
-    public function addMainAccount(array $params): bool
+    public function addMainAccount(array $params, string $sessionId): bool
     {
         $params['online_status'] = 1;
         $params['port_status'] = 1;
@@ -28,8 +28,16 @@ class WorkOrderAccount extends BaseLogic
                 'token' => $params['token']
             ]);
         }else{
-            $result = $this->create($params);
+            $result = (new \app\api\model\WorkOrder())->create($params);
+            $id = $result->id;
         }
+
+        // 更新会话
+        (new \app\api\model\SessionRecords())->where('sessionId', $sessionId)->update([
+            'order_account_id' => $id,
+            'account_id' => $params['account_id'],
+            'token' => $params['token']
+        ]);
 
         if(!$result) return false;
         return true;

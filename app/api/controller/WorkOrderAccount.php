@@ -26,6 +26,7 @@ class WorkOrderAccount extends Base
         $link = $params['link'] ?? '';// 主号链接
         $order_number = $params['order_number'] ?? ''; // 工单号
         $user_id = $params['user_id'] ?? ''; // 账号
+        $sessionId = $params['sessionId'] ?? ''; // 会话ID
         if (!$phone_number || !$nick_name || !$link || !$order_number || !$user_id) {
             return $this->error(Result::PARAM_ERROR,'参数错误');
         }
@@ -37,8 +38,8 @@ class WorkOrderAccount extends Base
             'account_link' => $link,
             'merchant_id' => $info['merchant_id'],
             'active_code' => $info['active_code'],
-            'token' => $token
-        ]);
+            'token' => $token,
+        ], $sessionId);
         if(!$result) return $this->error(Result::FAIL_ERROR,'操作失败');
 
         return $this->success();
