@@ -23,7 +23,7 @@ class ActiveCode extends Base
         $workOrderInfo = $workOrder->field('active_code,SUM(port_use_num) port_use_num,SUM(port_online_num) port_online_num')
             ->where(['active_code' => $info['active_code']])
             ->group('active_code')
-            ->select();
+            ->find();
         return $this->success([
             'online_ports' => $workOrderInfo['port_online_num'] ?? 0,
             'used_ports' => $workOrderInfo['port_use_num'] ?? 0,
