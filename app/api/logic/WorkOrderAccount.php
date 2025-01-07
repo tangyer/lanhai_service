@@ -61,33 +61,34 @@ class WorkOrderAccount extends BaseLogic
     public function updateBatchOffline(array $params): bool
     {
         $data = [
-            'online_status' => $params['online_status'],
+            'online_status' => 0,
             'port_status' => 0,
-            'offline_time' => $params['offline_time'],
+            'offline_time' => time(),
             'token' => ''
         ];
-        $workOrderData = (new \app\api\model\WorkOrderAccount())->field('order_code,count(id) as number')
-            ->where([
-                'active_code' => $params['active_code'],
-                'token' => $params['token']
-            ])
-            ->group('order_code')
-            ->select();
-
-        $result = (new \app\api\model\WorkOrderAccount())
-            ->where([
-                'active_code' => $params['active_code'],
-                'token' => $params['token']
-            ])
-            ->update($data);
-        if(!$result) return false;
-
-        foreach ($workOrderData as $key => $item){
-            (new \app\api\model\WorkOrder)->where('order_code', $item->order_code)
-                ->dec('port_use_num', $item->number)
-                ->dec('port_online_num', $item->number)
+        // 根据会话Id 查询主账号id
+        $orderAccountId = (new \app\api\model\SessionRecords())
+            ->whereIn('sessionId',$params['sessionId'])
+            ->column('order_account_id');
+        if (!$orderAccountId) return false;
+        try {
+            // 开始事务
+            Db::startTrans();
+            // 修改主账号登录状态
+            $result = (new \app\api\model\WorkOrderAccount())
+                ->whereIn('id',$orderAccountId)
+                ->update($data);
+            if(!$result) return false;
+            // 在线端口 减掉
+            (new \app\api\model\WorkOrder)->where('order_code', $params['order_code'])
+                ->dec('port_use_num', count($orderAccountId))
                 ->update();
+        }catch (\Exception $e){
+            // 回滚事务
+            Db::rollback();
+            return false;
         }
+
         return true;
     }
 
@@ -110,10 +111,14 @@ class WorkOrderAccount extends BaseLogic
             if(!$result) return false;
             // 在线端口 +1
             if($params['online_status'] == 1){
-                (new \app\api\model\WorkOrder())->inc('port_online_num', 1)->update();
+                (new \app\api\model\WorkOrder())->where('order_code',$sessionInfo->order_code)
+                    ->inc('port_online_num', 1)
+                    ->update();
             }else{
                 // 在线端口 -1
-                (new \app\api\model\WorkOrder())->dec('port_online_num', 1)->update();
+                (new \app\api\model\WorkOrder())->where('order_code',$sessionInfo->order_code)
+                    ->dec('port_online_num', 1)
+                    ->update();
             }
         }catch (\Exception $e){
             // 回滚事务

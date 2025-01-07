@@ -55,16 +55,17 @@ class WorkOrderAccount extends Base
         $token = $this->request->header('token');
         $info = Cache::get($token);
         if(!$info) return $this->error(Result::TOKEN_ERROR,'身份验证错误');
-        $active_code = $params['code'] ?? 0; // 激活码
-        $online_status = $params['online_status'] ?? ''; // 状态 0 离线
-        $last_login_time = $params['last_login_time'] ?? date('Y-m-d H:i:s'); // 下线时间
-        if (!$active_code || !$last_login_time) {
+//        $active_code = $params['code'] ?? 0; // 激活码
+//        $online_status = $params['online_status'] ?? ''; // 状态 0 离线
+//        $last_login_time = $params['last_login_time'] ?? date('Y-m-d H:i:s'); // 下线时间
+        $sessionId = $params['sessionId'] ?? []; // 会话id
+        $order_code = $params['order_number'] ?? '';
+        if (!$sessionId || !$order_code) {
             return $this->error(Result::PARAM_ERROR,'参数错误');
         }
         $result = $workOrderAccount->updateBatchOffline([
-            'active_code' => $info['active_code'],
-            'online_status' => $online_status,
-            'offline_time' => strtotime($last_login_time),
+            'sessionId' => $sessionId,
+            'order_code' => $order_code,
             'token' => $token
         ]);
         if(!$result) return $this->error(Result::FAIL_ERROR,'操作失败');
