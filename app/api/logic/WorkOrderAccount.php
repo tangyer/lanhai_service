@@ -96,7 +96,6 @@ class WorkOrderAccount extends BaseLogic
             // 提交事务
             Db::commit();
         }catch (\Exception $e){
-            dd($e);
             // 回滚事务
             Db::rollback();
             return false;
@@ -117,6 +116,9 @@ class WorkOrderAccount extends BaseLogic
         $info->online_status = $params['online_status'];
         $info->online_time = !empty($params['last_login_time']) ? $params['last_login_time'] : $params['login_time'];
         $info->port_status = $params['port_status'];
+        if($params['online_status'] == 0){
+            $info->offline_time = time();
+        }
         try {
             // 开始事务
             Db::startTrans();
