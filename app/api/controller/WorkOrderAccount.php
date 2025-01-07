@@ -157,4 +157,17 @@ class WorkOrderAccount extends Base
         if (!$result) return $this->error(Result::FAIL_ERROR,'操作失败');
         return $this->success();
     }
+
+    /**
+     * 创建会话/删除会话
+     * @return Json
+     */
+    public function conversation()
+    {
+        $params = $this->getInput();
+        $token = $this->request->header('token');
+        $info = Cache::get($token);
+        if(!$info) return $this->error(Result::TOKEN_ERROR,'身份验证错误');
+
+    }
 }

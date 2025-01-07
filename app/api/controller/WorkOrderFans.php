@@ -24,11 +24,20 @@ class WorkOrderFans extends Base
         if(!$fans_account || !$user_id || !$activation_code){
             return $this->error(Result::PARAM_ERROR,'参数错误');
         }
-        $result = $workOrderFans->findOne([
-            'fans_account_code' => $fans_account,
-            'order_account_id' =>  $user_id,
-            'active_code' => $activation_code
-        ]);
+        try {
+            $result = $workOrderFans->findOne([
+                'fans_account_code' => $fans_account,
+                'order_account_id' =>  $user_id,
+                'active_code' => $activation_code
+            ]);
+        }catch (\Exception $e){
+            return $this->success([
+                'fans_username' => '',
+                'fans_nickname' => '',
+                'fans_label' => '',
+                'fans_mark' => ''
+            ]);
+        }
         return  $this->success([
             'fans_username' => $result->fans_account_name,
             'fans_nickname' => $result->fans_account_name,
