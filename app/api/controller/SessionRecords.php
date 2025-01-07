@@ -18,7 +18,7 @@ class SessionRecords extends Base
      * @throws \think\db\exception\ModelNotFoundException
      * 会话是否可以创建
      */
-    public function isCreatSession(\app\api\model\WorkOrder $workOrder)
+    public function isCreatSession()
     {
         $token = $this->request->header('token');
         $info = Cache::get($token);
@@ -27,11 +27,11 @@ class SessionRecords extends Base
         $platform = $input['platformId'] ?? '';
         if(!$platform) return $this->error(Result::TOKEN_ERROR,'参数错误');
 
-        $workOrderInfo = $workOrder->field('active_code,port_num,port_use_num,port_online_num')
-            ->where(['active_code' => $info['active_code']])
+        $workOrderInfo = (new \app\api\model\WorkOrder())->where(['active_code' => $info['active_code']])
             ->where('platform' ,$platform)
-            ->select()->toArray();
-        if($workOrderInfo[0]['port_num'] > $workOrderInfo[0]['port_use_num']){
+            ->find();
+        if(empty($workOrderInfo)) return $this->error(Result::TOKEN_ERROR,'请核对激活码');
+        if($workOrderInfo->port_num > $workOrderInfo->port_use_num){
             return $this->success(['status'=>1]);
         }else{
             return $this->success(['status'=>0]);
