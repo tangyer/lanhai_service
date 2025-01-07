@@ -100,7 +100,7 @@ class SessionRecords extends Base
         $code = $input['code'] ?? '';
 
         foreach ($sessionId as $v){
-            $sessionRecords->deleteSession(['sessionId'=>$v,$code => $code]);
+            $sessionRecords->deleteSessionBySessionId($v,$code);
         }
 
         return $this->success();

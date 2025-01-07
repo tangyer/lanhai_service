@@ -79,8 +79,9 @@ class SessionRecords extends BaseLogic
     {
         // 查询会话
         $session = $this->model->findOne(['sessionId'=>$sessionId]);
+        if(!$session) return ['status'=>0,'msg'=>'会话不存在'];
 
-        $where = ['sessionId'=>$sessionId];
+        $where = ['order_code'=>$session->order_code];
         if(!empty($code)){
             $where['active_code'] = $code;
         }
