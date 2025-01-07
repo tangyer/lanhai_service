@@ -72,7 +72,7 @@ class WorkOrderAccount extends BaseLogic
         $orderAccountId = (new \app\api\model\SessionRecords())
             ->whereIn('sessionId',$params['sessionId'])
             ->column('order_account_id');
-        
+
         if (!$orderAccountId) return true;
         try {
             // 开始事务
@@ -96,6 +96,7 @@ class WorkOrderAccount extends BaseLogic
             // 提交事务
             Db::commit();
         }catch (\Exception $e){
+            dd($e);
             // 回滚事务
             Db::rollback();
             return false;
