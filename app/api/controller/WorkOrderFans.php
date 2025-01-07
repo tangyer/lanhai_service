@@ -36,7 +36,7 @@ class WorkOrderFans extends Base
                 'fans_username' => '',
                 'fans_nickname' => '',
                 'fans_label' => '',
-                'fans_mark' => '',
+                'fans_remark' => '',
             ]);
         }
         return  $this->success([
@@ -44,7 +44,7 @@ class WorkOrderFans extends Base
             'fans_username' => $result->fans_account_name,
             'fans_nickname' => $result->fans_account_name,
             'fans_label' => $result->fans_flag,
-            'fans_mark' => $result->remark
+            'fans_remark' => $result->remark
         ]);
     }
 
