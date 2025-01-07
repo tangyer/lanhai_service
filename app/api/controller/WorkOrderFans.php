@@ -61,6 +61,7 @@ class WorkOrderFans extends Base
         $platform_id = $params['platform_id'] ?? ''; // 平台id
         $order_account_id = $params['main_account'] ?? ''; // 主账号
         $order_code  = $params['order_number'] ?? ''; // 工单号
+        $fans_nickname = $params['fans_nickname'] ?? ''; // 粉丝名称
         $fans_mobile = (preg_replace('/[+ ]/', '', $params['fans_phone'] ?? ''));
          if(!$platform_id || !$order_account_id || !$order_code || !$fans_mobile){
              return $this->error(Result::PARAM_ERROR,'参数错误');
@@ -72,6 +73,7 @@ class WorkOrderFans extends Base
 //            'contact' => $fans_mobile, // 联系方式
             'fans_mobile' => $fans_mobile, // 手机号
             'fans_account_id' => $fans_mobile, // 账号
+            'fans_nickname' => $fans_nickname // 粉丝名称
         ];
         $result = $workOrderFans->register($info, $data);
         if (!$result) return $this->error(Result::FAIL_ERROR,'操作失败');
