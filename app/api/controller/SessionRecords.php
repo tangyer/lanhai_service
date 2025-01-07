@@ -10,10 +10,6 @@ class SessionRecords extends Base
 {
     use ApiAction;
 
-    protected array $middleware = [
-        'auth' => ['except' => ['deleteAllSession']],
-    ];
-
     /**
      * @param \app\api\model\WorkOrder $workOrder
      * @return \think\response\Json
