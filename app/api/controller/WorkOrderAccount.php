@@ -60,7 +60,7 @@ class WorkOrderAccount extends Base
 //        $last_login_time = $params['last_login_time'] ?? date('Y-m-d H:i:s'); // 下线时间
         $sessionId = $params['sessionId'] ?? []; // 会话id
         $order_code = $params['order_number'] ?? '';
-        if (!$sessionId || !$order_code) {
+        if (!$sessionId) {
             return $this->error(Result::PARAM_ERROR,'参数错误');
         }
         $result = $workOrderAccount->updateBatchOffline([
