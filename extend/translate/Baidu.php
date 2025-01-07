@@ -10,15 +10,15 @@ class Baidu implements ITransEngine
 
     public function translate($text, $from, $to){
 
-//        $appId = '20221014001393040';
+        $appId = '20221014001393040';
 
-//        $secret = '0Fbx5GBhVpbSlNPFoErE'; 已欠费
+        $secret = '0Fbx5GBhVpbSlNPFoErE'; 
 
         $from = 'auto'; // 自动识别
 
-        $appId = '20221014001393149';
+        // $appId = '20221014001393149';
 
-        $secret = '3CapSWmVZVCkyddK45Ry';
+        // $secret = '3CapSWmVZVCkyddK45Ry';
 
         $salt = generate_rand_str();
 
