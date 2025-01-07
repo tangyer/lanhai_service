@@ -14,7 +14,7 @@ class ActiveCodeGroup extends BaseModel
       protected array $searchField = ['merchant_id','group_name','status','merchant.merchant_name|like','active_code.active_code'];
 
     protected array $join = [
-        ['merchant' , 'merchant.id = ActiveCodeGroup.merchant_id'],
-        ['active_code' , 'ActiveCodeGroup.id = active_code.active_code_group_id']
+        ['merchant' , 'merchant.id = active_code_group.merchant_id'],
+        ['active_code' , 'active_code_group.id = active_code.active_code_group_id']
     ];
 }
