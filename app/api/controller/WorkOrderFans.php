@@ -18,15 +18,15 @@ class WorkOrderFans extends Base
     public function getFansInfo(\app\api\logic\WorkOrderFans $workOrderFans): Json
     {
         $params = $this->getInput();
-        $fans_account = $params['fans_account'] ?? ''; // 用户名/粉丝账号
+        $fans_mobile = str_replace('+', '', str_replace(' ', '', $params['fans_account'] ?? '')); // 手机号
         $user_id = $params['user_id'] ?? ''; // 主账号
         $activation_code = $params['activation_code'] ?? ''; // 激活码
-        if(!$fans_account || !$user_id || !$activation_code){
+        if(!$fans_mobile || !$user_id || !$activation_code){
             return $this->error(Result::PARAM_ERROR,'参数错误');
         }
         try {
             $result = $workOrderFans->findOne([
-                'fans_account_code' => $fans_account,
+                'fans_account_id' => $fans_mobile,
                 'order_account_id' =>  $user_id,
                 'active_code' => $activation_code
             ]);
@@ -71,6 +71,7 @@ class WorkOrderFans extends Base
             'order_code' => $order_code ?? '', // 工单号
 //            'contact' => $fans_mobile, // 联系方式
             'fans_mobile' => $fans_mobile, // 手机号
+            'fans_account_id' => $fans_mobile, // 账号
         ];
         $result = $workOrderFans->register($info, $data);
         if (!$result) return $this->error(Result::FAIL_ERROR,'操作失败');
