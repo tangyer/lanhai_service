@@ -132,7 +132,7 @@
 
     $(function() {
         var options = {
-            url: prefix + "/index",
+            url: prefix + "/index?order_code={$model.order_code}",
             createUrl: prefix + "/create",
             updateUrl: prefix + "/update?id={id}",
             removeUrl: prefix + "/delete",

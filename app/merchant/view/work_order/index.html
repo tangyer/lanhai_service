@@ -46,7 +46,7 @@
 </div>
 {include file="public/js" /}
 <script>
-    
+    console.log();
 var editFlag = "";
 var removeFlag = "";
 var prefix = ctx + "/workOrder";
@@ -114,6 +114,7 @@ function shareOrder(code){
 }
 function detail(id) {
     var url = ctx + '/workOrder/detail?id=' + id;
+    console.log(url);
     $.modal.openTab("工单信息", url);
 }
 
