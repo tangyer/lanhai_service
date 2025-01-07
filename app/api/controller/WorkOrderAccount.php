@@ -61,7 +61,7 @@ class WorkOrderAccount extends Base
         $sessionId = $params['sessionId'] ?? []; // 会话id
         $order_code = $params['order_number'] ?? '';
         if (!$sessionId) {
-            return $this->error(Result::PARAM_ERROR,'参数错误');
+            return $this->success();
         }
         $result = $workOrderAccount->updateBatchOffline([
             'sessionId' => $sessionId,
