@@ -45,7 +45,8 @@ class WorkOrderAccount extends BaseLogic
                 'token' => $params['token']
             ]);
             if(!$result) return false;
-
+            // 提交事务
+            Db::commit();
         }catch (\Exception $e){
             // 回滚事务
             Db::rollback();
@@ -78,11 +79,15 @@ class WorkOrderAccount extends BaseLogic
             $result = (new \app\api\model\WorkOrderAccount())
                 ->whereIn('id',$orderAccountId)
                 ->update($data);
+
             if(!$result) return false;
             // 在线端口 减掉
             (new \app\api\model\WorkOrder)->where('order_code', $params['order_code'])
                 ->dec('port_use_num', count($orderAccountId))
                 ->update();
+
+            // 提交事务
+            Db::commit();
         }catch (\Exception $e){
             // 回滚事务
             Db::rollback();
@@ -120,6 +125,8 @@ class WorkOrderAccount extends BaseLogic
                     ->dec('port_online_num', 1)
                     ->update();
             }
+            // 提交事务
+            Db::commit();
         }catch (\Exception $e){
             // 回滚事务
             Db::rollback();
