@@ -148,7 +148,6 @@ class WorkOrderAccount extends BaseLogic
         }catch (\Exception $e){
             // 回滚事务
             Db::rollback();
-            dd($e);
             return false;
         }
 
