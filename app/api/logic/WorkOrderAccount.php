@@ -117,21 +117,21 @@ class WorkOrderAccount extends BaseLogic
     {
         // 根据会话id 查询关联主账号
         $sessionInfo = (new \app\api\model\SessionRecords())->where(['sessionId' => $sessionId])->find();
-        if(!$sessionInfo->order_account_id){
+        if(!$sessionInfo['order_account_id']){
             return true;
         }
         try {
             // 开始事务
             Db::startTrans();
-            $info = $this->findOneById($sessionInfo->order_account_id);
+            $info = $this->findOneById($sessionInfo['order_account_id']);
             // 离线状态时上线 在线端口 +1
             if($params['online_status'] == 1 && $info->online_status == 0){
-                (new \app\api\model\WorkOrder())->where('order_code',$sessionInfo->order_code)
+                (new \app\api\model\WorkOrder())->where('order_code',$sessionInfo['order_code'])
                     ->inc('port_online_num', 1)
                     ->update();
             }elseif($params['online_status'] == 0 && $info->online_status == 1){
                 // 在线状态时离线 在线端口 -1
-                (new \app\api\model\WorkOrder())->where('order_code',$sessionInfo->order_code)
+                (new \app\api\model\WorkOrder())->where('order_code',$sessionInfo['order_code'])
                     ->dec('port_online_num', 1)
                     ->update();
             }

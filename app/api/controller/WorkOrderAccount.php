@@ -153,8 +153,6 @@ class WorkOrderAccount extends Base
         $login_time = $params['login_time'] ?? time(); // 登录时间
         $port_status = $online_status == 1 ? 1 : 0 ; // 占用端口
         $last_login_time = $params['last_login_time'] ?? time(); // 最后登录时间
-        $a = (new \app\api\model\SessionRecords())->where(['sessionId' => $sessionId])->fetchSql(true)->find();
-        return $this->error(Result::PARAM_ERROR,'参数错误'.$a);
         if(!$user_id || !$sessionId){
             return $this->error(Result::PARAM_ERROR,'参数错误');
         }
