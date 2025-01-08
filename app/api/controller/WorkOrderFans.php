@@ -18,7 +18,7 @@ class WorkOrderFans extends Base
     public function getFansInfo(\app\api\logic\WorkOrderFans $workOrderFans): Json
     {
         $params = $this->getInput();
-        $fans_mobile = preg_replace('/[+ ]/', '', $params['fans_account'] ?? ''); // 手机号
+        $fans_mobile = preg_replace('/[+ -]/', '', $params['fans_account'] ?? ''); // 手机号
         $user_id = $params['user_id'] ?? ''; // 主账号
         $activation_code = $params['activation_code'] ?? ''; // 激活码
         if(!$fans_mobile || !$user_id || !$activation_code){
