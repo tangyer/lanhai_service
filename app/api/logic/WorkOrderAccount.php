@@ -48,9 +48,9 @@ class WorkOrderAccount extends BaseLogic
 
             if($accountInfo->online_status != 1) {
                 //在线端口 +1
-                (new \app\api\model\WorkOrder())->where('order_code', $params['order_code'])
-                    ->inc('port_online_num', 1)
-                    ->update();
+//                (new \app\api\model\WorkOrder())->where('order_code', $params['order_code'])
+//                    ->inc('port_online_num', 1)
+//                    ->update();
             }
             // 提交事务
             Db::commit();
