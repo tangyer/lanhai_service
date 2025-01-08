@@ -18,15 +18,15 @@ class WorkOrderAccount extends BaseLogic
         $params['port_status'] = 1;
         $params['online_time'] = time();
         $params['create_time'] = time();
-        $id = $this->getFieldValue(['order_code' => $params['order_code'], 'account_id' => $params['account_id']], 'id');
+        $accountInfo = $this->findOne(['order_code' => $params['order_code'], 'account_id' => $params['account_id']]);
 
         try {
             // 开始事务
             Db::startTrans();
-            if($id){
+            if($accountInfo->id){
                 // 存在 更新
                 $result = $this->update([
-                    'id' => $id,
+                    'id' => $accountInfo->id,
                     'online_status' => $params['online_status'],
                     'port_status' => $params['port_status'],
                     'online_time' => $params['online_time'],
@@ -45,11 +45,13 @@ class WorkOrderAccount extends BaseLogic
                 'token' => $params['token']
             ]);
             if(!$result) return false;
-            //在线端口 +1
-            (new \app\api\model\WorkOrder())->where('order_code',$params['order_code'])
-                ->inc('port_online_num', 1)
-                ->update();
 
+            if($accountInfo->online_status != 1) {
+                //在线端口 +1
+                (new \app\api\model\WorkOrder())->where('order_code', $params['order_code'])
+                    ->inc('port_online_num', 1)
+                    ->update();
+            }
             // 提交事务
             Db::commit();
         }catch (\Exception $e){
