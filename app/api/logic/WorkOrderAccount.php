@@ -45,6 +45,11 @@ class WorkOrderAccount extends BaseLogic
                 'token' => $params['token']
             ]);
             if(!$result) return false;
+            //在线端口 +1
+            (new \app\api\model\WorkOrder())->where('order_code',$params['order_code'])
+                ->inc('port_online_num', 1)
+                ->update();
+
             // 提交事务
             Db::commit();
         }catch (\Exception $e){
