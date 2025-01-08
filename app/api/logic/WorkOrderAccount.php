@@ -79,7 +79,7 @@ class WorkOrderAccount extends BaseLogic
         $orderAccountId = (new \app\api\model\SessionRecords())
             ->whereIn('sessionId',$params['sessionId'])
             ->column('order_account_id');
-
+        trace('批量下线', 'log'.'========'.$orderAccountId[0]);
         if (!$orderAccountId) return true;
         try {
             // 开始事务
