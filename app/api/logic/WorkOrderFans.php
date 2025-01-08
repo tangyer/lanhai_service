@@ -81,6 +81,7 @@ class WorkOrderFans extends BaseLogic
             // 提交事务
             Db::commit();
         } catch (\Exception $e) {
+            dd($e);
             // 回滚事务
             Db::rollback();
             return false;
