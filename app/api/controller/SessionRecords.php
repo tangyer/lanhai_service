@@ -77,7 +77,7 @@ class SessionRecords extends Base
         $input = $this->getInput();
 
         $sessionId = $input['sessionId'] ?? '';
-        if(!$sessionId) return $this->error(Result::TOKEN_ERROR,'参数错误2');
+        if(!$sessionId) return $this->error(Result::TOKEN_ERROR,'参数错误');
 
         // 删除会话
         $res = $sessionRecords->deleteSession(['sessionId'=>$sessionId]);
