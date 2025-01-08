@@ -14,8 +14,8 @@ class WorkOrderAccount extends BaseLogic
      */
     public function addMainAccount(array $params, string $sessionId): bool
     {
-        $params['online_status'] = 1;
-        $params['port_status'] = 1;
+//        $params['online_status'] = 1;
+//        $params['port_status'] = 1;
         $params['online_time'] = time();
         $params['create_time'] = time();
         $accountInfo = $this->findOne(['order_code' => $params['order_code'], 'account_id' => $params['account_id']]);
@@ -27,8 +27,8 @@ class WorkOrderAccount extends BaseLogic
                 // 存在 更新
                 $result = $this->update([
                     'id' => $accountInfo->id,
-                    'online_status' => $params['online_status'],
-                    'port_status' => $params['port_status'],
+//                    'online_status' => $params['online_status'],
+//                    'port_status' => $params['port_status'],
                     'online_time' => $params['online_time'],
                     'token' => $params['token']
                 ]);
