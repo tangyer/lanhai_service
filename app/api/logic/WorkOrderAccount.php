@@ -120,11 +120,10 @@ class WorkOrderAccount extends BaseLogic
         if(!$sessionInfo->order_account_id){
             return true;
         }
-        $info = $this->findOneById($sessionInfo->order_account_id);
         try {
             // 开始事务
             Db::startTrans();
-
+            $info = $this->findOneById($sessionInfo->order_account_id);
             // 离线状态时上线 在线端口 +1
             if($params['online_status'] == 1 && $info->online_status == 0){
                 (new \app\api\model\WorkOrder())->where('order_code',$sessionInfo->order_code)
