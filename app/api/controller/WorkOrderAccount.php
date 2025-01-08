@@ -61,7 +61,7 @@ class WorkOrderAccount extends Base
 //        $last_login_time = $params['last_login_time'] ?? date('Y-m-d H:i:s'); // 下线时间
         $sessionId = $params['sessionId'] ?? []; // 会话id
         $order_code = $params['order_number'] ?? '';
-        trace('批量下线', 'log'.'+++++');
+        trace($sessionId, 'log'.'批量下线');
         if (!$sessionId) {
             return $this->success();
         }
@@ -71,7 +71,6 @@ class WorkOrderAccount extends Base
             'token' => $token,
             'active_code' => $info['active_code']
         ]);
-        trace('批量下线', 'log'.'-----------'.$result);
         if(!$result) return $this->error(Result::FAIL_ERROR,'操作失败');
         return $this->success();
     }

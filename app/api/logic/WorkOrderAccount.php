@@ -79,7 +79,6 @@ class WorkOrderAccount extends BaseLogic
         $orderAccountId = (new \app\api\model\SessionRecords())
             ->whereIn('sessionId',$params['sessionId'])
             ->column('order_account_id');
-        trace('批量下线', 'log'.'========'.$orderAccountId[0]);
         if (!$orderAccountId) return true;
         try {
             // 开始事务
@@ -94,7 +93,6 @@ class WorkOrderAccount extends BaseLogic
                 (new \app\api\model\WorkOrder)->where('order_code', $item->order_code)
                     ->dec('port_online_num', $item->number)
                     ->update();
-                trace('批量下线', 'log'.'-----------'.$item->order_code.'-----'.$item->number);
             }
 
             // 修改主账号登录状态
