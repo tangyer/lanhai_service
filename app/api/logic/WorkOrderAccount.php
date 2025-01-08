@@ -18,15 +18,16 @@ class WorkOrderAccount extends BaseLogic
 //        $params['port_status'] = 1;
         $params['online_time'] = time();
         $params['create_time'] = time();
-        $accountInfo = $this->findOne(['order_code' => $params['order_code'], 'account_id' => $params['account_id']]);
-        $id = $accountInfo->id;
         try {
             // 开始事务
             Db::startTrans();
-            if($accountInfo->id){
+
+            $accountInfo = $this->model->where(['order_code' => $params['order_code'], 'account_id' => $params['account_id']])->find();
+            if(!empty($accountInfo)){
+                $id = $accountInfo->id;
                 // 存在 更新
                 $result = $this->update([
-                    'id' => $accountInfo->id,
+                    'id' => $id,
 //                    'online_status' => $params['online_status'],
 //                    'port_status' => $params['port_status'],
                     'online_time' => $params['online_time'],
