@@ -112,6 +112,9 @@ class WorkOrderAccount extends BaseLogic
     {
         // 根据会话id 查询关联主账号
         $sessionInfo = (new SessionRecords())->findOne(['sessionId' => $sessionId]);
+        if(!$sessionInfo->order_account_id){
+            return true;
+        }
         $info = $this->findOneById($sessionInfo->order_account_id);
         $info->online_status = $params['online_status'];
         $info->online_time = !empty($params['last_login_time']) ? $params['last_login_time'] : $params['login_time'];
