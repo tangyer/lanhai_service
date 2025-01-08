@@ -19,7 +19,7 @@ class WorkOrderAccount extends BaseLogic
         $params['online_time'] = time();
         $params['create_time'] = time();
         $accountInfo = $this->findOne(['order_code' => $params['order_code'], 'account_id' => $params['account_id']]);
-
+        $id = $accountInfo->id;
         try {
             // 开始事务
             Db::startTrans();
