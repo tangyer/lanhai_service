@@ -146,14 +146,13 @@ class WorkOrderAccount extends Base
         $params = $this->getInput();
         $token = $this->request->header('token');
         $info = Cache::get($token);
-        if(!$info) return $this->error(Result::TOKEN_ERROR,'身份验证错误1');
+        if(!$info) return $this->error(Result::TOKEN_ERROR,'身份验证错误');
         $sessionId = $params['sessionId'] ?? ''; // 会话id
         $user_id = $params['user_id'] ?? ''; //登录账号，手机号
         $online_status = $params['online_status'] == 1 ? 1 : 0; // 登录状态 1 登录  0 登出
         $login_time = $params['login_time'] ?? time(); // 登录时间
         $port_status = $online_status == 1 ? 1 : 0 ; // 占用端口
         $last_login_time = $params['last_login_time'] ?? time(); // 最后登录时间
-        return $this->error(Result::PARAM_ERROR,'参数错误3333');
         if(!$user_id || !$sessionId){
             return $this->error(Result::PARAM_ERROR,'参数错误');
         }
