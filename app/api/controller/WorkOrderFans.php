@@ -22,7 +22,14 @@ class WorkOrderFans extends Base
         $user_id = $params['user_id'] ?? ''; // 主账号
         $activation_code = $params['activation_code'] ?? ''; // 激活码
         if(!$fans_mobile || !$user_id || !$activation_code){
-            return $this->error(Result::PARAM_ERROR,'参数错误');
+//            return $this->error(Result::PARAM_ERROR,'参数错误');
+            return $this->success([
+                'fans_id' => '',
+                'fans_username' => '',
+                'fans_nickname' => '',
+                'fans_label' => '',
+                'fans_remark' => '',
+            ]);
         }
         try {
             $result = $workOrderFans->findOne([
