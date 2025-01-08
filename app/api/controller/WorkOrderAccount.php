@@ -54,8 +54,8 @@ class WorkOrderAccount extends Base
     {
         $params = $this->getInput();
         $token = $this->request->header('token');
-        $info = Cache::get($token);
-        if(!$info) return $this->error(Result::TOKEN_ERROR,'身份验证错误');
+//        $info = Cache::get($token);
+//        if(!$info) return $this->error(Result::TOKEN_ERROR,'身份验证错误');
 //        $active_code = $params['code'] ?? 0; // 激活码
 //        $online_status = $params['online_status'] ?? ''; // 状态 0 离线
 //        $last_login_time = $params['last_login_time'] ?? date('Y-m-d H:i:s'); // 下线时间
@@ -69,7 +69,7 @@ class WorkOrderAccount extends Base
             'sessionId' => $sessionId,
             'order_code' => $order_code,
             'token' => $token,
-            'active_code' => $info['active_code']
+//            'active_code' => $info['active_code']
         ]);
         if(!$result) return $this->error(Result::FAIL_ERROR,'操作失败');
         return $this->success();
