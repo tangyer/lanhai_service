@@ -116,7 +116,8 @@ class WorkOrderAccount extends BaseLogic
     public function updateMainAccount(array $params, string $sessionId): bool
     {
         // 根据会话id 查询关联主账号
-        $sessionInfo = (new \app\api\model\SessionRecords())->where(['session_id' => $sessionId])->find();
+        $sessionInfo = (new \app\api\model\SessionRecords())->where(['sessionId' => $sessionId])->find();
+        dd($sessionInfo);
         if(!$sessionInfo['order_account_id']){
             return true;
         }
