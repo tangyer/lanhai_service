@@ -116,28 +116,29 @@ class WorkOrderAccount extends BaseLogic
             return true;
         }
         $info = $this->findOneById($sessionInfo->order_account_id);
-        $info->online_status = $params['online_status'];
-        $info->online_time = !empty($params['last_login_time']) ? $params['last_login_time'] : $params['login_time'];
-        $info->port_status = $params['port_status'];
-        if($params['online_status'] == 0){
-            $info->offline_time = time();
-        }
         try {
             // 开始事务
             Db::startTrans();
-            $result = $info->save();
-            if(!$result) return false;
-            // 在线端口 +1
-            if($params['online_status'] == 1){
+
+            // 离线状态时上线 在线端口 +1
+            if($params['online_status'] == 1 && $info->online_status == 0){
                 (new \app\api\model\WorkOrder())->where('order_code',$sessionInfo->order_code)
                     ->inc('port_online_num', 1)
                     ->update();
-            }else{
-                // 在线端口 -1
+            }elseif($params['online_status'] == 0 && $info->online_status == 1){
+                // 在线状态时离线 在线端口 -1
                 (new \app\api\model\WorkOrder())->where('order_code',$sessionInfo->order_code)
                     ->dec('port_online_num', 1)
                     ->update();
             }
+            $info->online_status = $params['online_status'];
+            $info->online_time = !empty($params['last_login_time']) ? $params['last_login_time'] : $params['login_time'];
+            $info->port_status = $params['port_status'];
+            if($params['online_status'] == 0){
+                $info->offline_time = time();
+            }
+            $result = $info->save();
+            if(!$result) return false;
             // 提交事务
             Db::commit();
         }catch (\Exception $e){
