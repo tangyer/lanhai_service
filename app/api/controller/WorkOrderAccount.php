@@ -83,7 +83,17 @@ class WorkOrderAccount extends Base
     {
         $params = $this->getInput();
         $user_id = $params['user_id'] ?? 0;
-        if (!$user_id) return $this->error(Result::PARAM_ERROR,'参数错误');
+        if (!$user_id)
+        {
+//            return $this->error(Result::PARAM_ERROR,'参数错误');
+            return $this->success([
+                'news_fans_number' => 0, // 当日置零后进粉总数
+                'repeat_fans_number' => 0, // 当日置零后重粉总数
+                'all_new_fans_number' => 0, // 新粉数
+                'all_repeat_fans_number' => 0, // 重粉数
+                'all_fans_number' => 0 // 全部粉丝数
+            ]);
+        }
         try {
             $fansRecord = $workOrderAccount->findOne(['account_id' => $user_id]);
 
