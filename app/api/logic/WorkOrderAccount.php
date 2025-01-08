@@ -117,7 +117,7 @@ class WorkOrderAccount extends BaseLogic
     {
         // 根据会话id 查询关联主账号
         $sessionInfo = (new \app\api\model\SessionRecords())->where(['sessionId' => $sessionId])->find();
-        if(!$sessionInfo['order_account_id']){
+        if(empty($sessionInfo) || empty($sessionInfo['order_account_id'])){
             return true;
         }
         try {
