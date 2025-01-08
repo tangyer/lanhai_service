@@ -9,7 +9,7 @@ class KeywordType extends Base
     use MerchantAction;
 
     public function getAll(){
-        return $this->success($this->logic->getAll()->toArray());
+        return $this->success($this->logic->getAll($this->getParams())->toArray());
     }
 
 }

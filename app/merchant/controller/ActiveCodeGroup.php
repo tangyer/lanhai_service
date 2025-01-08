@@ -9,6 +9,6 @@ class ActiveCodeGroup extends Base
     use MerchantAction;
 
     public function all(){
-        return $this->success($this->logic->getAll()->toArray());
+        return $this->success($this->logic->getAll($this->getParams())->toArray());
     }
 }
