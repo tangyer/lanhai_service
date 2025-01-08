@@ -26,12 +26,12 @@ class ActiveCode extends BaseLogic
     {
         // 清除token， 然后修改 token 登录的账户 为下线状态 ，并增加对应端口号
         Cache::delete($token);
-        \app\api\model\WorkOrderAccount::where(['token' => $token])->update([
-            'token' => '',
-            'online_status' => 0,
-            'port_status' => 0,
-            'offline_time' => time()
-        ]);
+//        \app\api\model\WorkOrderAccount::where(['token' => $token])->update([
+//            'token' => '',
+//            'online_status' => 0,
+//            'port_status' => 0,
+//            'offline_time' => time()
+//        ]);
         return true;
     }
 }
