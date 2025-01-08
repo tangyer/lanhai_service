@@ -12,7 +12,7 @@ class QuickReply extends BaseModel
 
      protected string $selectField = 'id,merchant_id,reply_name,reply_type,content,quick_reply_type.type_name';
 
-      protected array $searchField = ['reply_name','reply_type','content'];
+      protected array $searchField = ['reply_name','reply_type','content','merchant_id'];
 
     protected $softDel = false;
 

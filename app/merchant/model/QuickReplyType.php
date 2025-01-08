@@ -11,7 +11,7 @@ class QuickReplyType extends BaseModel
 
      protected string $selectField = 'id,merchant_id,type_name';
 
-      protected array $searchField = ['type_name'];
+      protected array $searchField = ['type_name','merchant_id'];
 
     protected $softDel = false;
 }
