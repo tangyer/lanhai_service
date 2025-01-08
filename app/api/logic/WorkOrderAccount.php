@@ -94,6 +94,7 @@ class WorkOrderAccount extends BaseLogic
                 (new \app\api\model\WorkOrder)->where('order_code', $item->order_code)
                     ->dec('port_online_num', $item->number)
                     ->update();
+                trace('批量下线', 'log'.'-----------'.$item->order_code.'-----'.$item->number);
             }
 
             // 修改主账号登录状态
