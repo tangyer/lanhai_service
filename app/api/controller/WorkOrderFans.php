@@ -70,6 +70,7 @@ class WorkOrderFans extends Base
         $order_code  = $params['order_number'] ?? ''; // 工单号
         $fans_nickname = $params['fans_nickname'] ?? ''; // 粉丝名称
         $fans_mobile = (preg_replace('/[+ ]/', '', $params['fans_phone'] ?? ''));
+        trace($order_account_id, 'log'.'添加粉丝记录'.$platform_id);
          if(!$platform_id || !$order_account_id || !$order_code || !$fans_mobile){
              return $this->error(Result::PARAM_ERROR,'参数错误');
          }
