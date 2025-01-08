@@ -153,6 +153,7 @@ class WorkOrderAccount extends Base
         $login_time = $params['login_time'] ?? time(); // 登录时间
         $port_status = $online_status == 1 ? 1 : 0 ; // 占用端口
         $last_login_time = $params['last_login_time'] ?? time(); // 最后登录时间
+        return $this->error(Result::PARAM_ERROR,'参数错误'.$user_id.'=='.$sessionId);
         if(!$user_id || !$sessionId){
             return $this->error(Result::PARAM_ERROR,'参数错误');
         }
@@ -163,6 +164,7 @@ class WorkOrderAccount extends Base
             'port_status' => $port_status,
             'last_login_time' => $last_login_time
         ], $sessionId);
+
         if (!$result) return $this->error(Result::FAIL_ERROR,'操作失败');
         return $this->success();
     }
