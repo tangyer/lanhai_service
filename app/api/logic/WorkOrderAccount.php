@@ -115,6 +115,7 @@ class WorkOrderAccount extends BaseLogic
      */
     public function updateMainAccount(array $params, string $sessionId): bool
     {
+        return false;
         // 根据会话id 查询关联主账号
         $sessionInfo = (new SessionRecords())->findOne(['sessionId' => $sessionId]);
         if(!$sessionInfo->order_account_id){
@@ -123,7 +124,6 @@ class WorkOrderAccount extends BaseLogic
         try {
             // 开始事务
             Db::startTrans();
-            return false;
             $info = $this->findOneById($sessionInfo->order_account_id);
             // 离线状态时上线 在线端口 +1
             if($params['online_status'] == 1 && $info->online_status == 0){
