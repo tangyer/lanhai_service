@@ -89,7 +89,7 @@ class WorkOrderAccount extends BaseLogic
             foreach($workOrderAccountData as $item){
                 // 在线端口 减掉
                 (new \app\api\model\WorkOrder)->where('order_code', $item->order_code)
-                    ->dec('port_use_num', $item->number)
+                    ->dec('port_online_num', $item->number)
                     ->update();
             }
 
