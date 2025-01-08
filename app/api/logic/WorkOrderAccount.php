@@ -82,15 +82,18 @@ class WorkOrderAccount extends BaseLogic
         try {
             // 开始事务
             Db::startTrans();
+
+            $workOrderAccountData = (new \app\api\model\WorkOrderAccount())->field('order_code,count(id) number')
+                ->whereIn('id',$orderAccountId)
+                ->group('order_code')->select();
+
             // 修改主账号登录状态
             $result = (new \app\api\model\WorkOrderAccount())
                 ->whereIn('id',$orderAccountId)
                 ->update($data);
 
             if(!$result) return false;
-            $workOrderAccountData = (new \app\api\model\WorkOrderAccount())->field('order_code,count(id) number')
-                ->whereIn('id',$orderAccountId)
-                ->group('order_code')->select();
+            
             foreach($workOrderAccountData as $item){
                 // 在线端口 减掉
                 (new \app\api\model\WorkOrder)->where('order_code', $item->order_code)
