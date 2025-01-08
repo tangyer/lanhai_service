@@ -87,6 +87,13 @@ class WorkOrderAccount extends BaseLogic
                 ->whereIn('id',$orderAccountId)
                 ->group('order_code')->select();
 
+            foreach($workOrderAccountData as $item){
+                // 在线端口 减掉
+                (new \app\api\model\WorkOrder)->where('order_code', $item->order_code)
+                    ->dec('port_online_num', $item->number)
+                    ->update();
+            }
+
             // 修改主账号登录状态
             $result = (new \app\api\model\WorkOrderAccount())
                 ->whereIn('id',$orderAccountId)
@@ -94,12 +101,6 @@ class WorkOrderAccount extends BaseLogic
 
             if(!$result) return false;
             
-            foreach($workOrderAccountData as $item){
-                // 在线端口 减掉
-                (new \app\api\model\WorkOrder)->where('order_code', $item->order_code)
-                    ->dec('port_online_num', $item->number)
-                    ->update();
-            }
 
             // 提交事务
             Db::commit();
