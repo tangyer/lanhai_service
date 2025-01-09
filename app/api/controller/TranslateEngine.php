@@ -47,6 +47,10 @@ class TranslateEngine extends Base
             [
                 'lang_code' => 'zh',
                 'lang_name' => '中文',
+            ],
+            [
+                'lang_code' => 'th',
+                'lang_name' => '泰语',
             ]];
         return $this->success($data);
     }
