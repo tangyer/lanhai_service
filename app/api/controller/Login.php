@@ -12,6 +12,9 @@ class Login extends Base
         $code = $input['code'] ?? '';
         if (!$code) return $this->error(Result::PARAM_ERROR,'参数错误');
         $model = $activeCode->findOneByActiveCode($code);
+        if(strtotime($model->expire_time) < time()){
+            return $this->error(Result::FAIL_ERROR,'激活码已过期');
+        }
         $model->content_permission = true;
         $model->access_token = md5($model->active_code.random_int(1000,9999).time());
         Cache::set($model->access_token,$model->toArray(),86400);
