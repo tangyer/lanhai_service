@@ -22,6 +22,7 @@ class TranslateEngine extends Base
      */
     public function getAllEngine(): Json
     {
+
         return $this->success([
             ['id' => 1,'engine_code' => 'google','engine_type' => 'general','engine' => '谷歌'],
             ['id' => 2,'engine_code' => 'baidu','engine_type' => 'general','engine' => '百度'],
