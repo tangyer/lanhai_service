@@ -11,7 +11,7 @@ $(function() {
         removeUrl: prefix + "/delete",
         exportUrl: prefix + "/export",
         sortName: "id",
-        modalName: "workOrder",
+        modalName: "工单",
         uniqueId:"id",
         columns:[
               {checkbox:true},

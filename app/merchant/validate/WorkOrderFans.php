@@ -13,7 +13,7 @@ class WorkOrderFans extends Validate
         'order_account_id|主帐号' => 'require',
         'fans_account_code|用户名' => 'require',
         'fans_mobile|手机号' => 'require',
-        'fans_account_id|账户ID' => 'require',
-        'fans_account_name|账户名称' => 'require',
+//        'fans_account_id|账户ID' => 'require',
+//        'fans_account_name|账户名称' => 'require',
     ];
 }

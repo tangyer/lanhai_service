@@ -11,7 +11,7 @@ $(function() {
         removeUrl: prefix + "/delete",
         exportUrl: prefix + "/export",
         sortName: "id",
-        modalName: "activeCode",
+        modalName: "激活码",
         uniqueId:"id",
         columns:[
               {checkbox:true},
