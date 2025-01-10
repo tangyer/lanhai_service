@@ -12,7 +12,7 @@ class User extends BaseModel
 
     protected array $searchField = ['username','realname|like'];
 
-    protected string $selectField = 'id,username,realname,mobile,role.role_name,last_login_time,last_login_ip,status,create_time,fail_times';
+    protected string $selectField = 'id,username,realname,mobile,role.role_name,last_login_time,last_login_ip,status,create_time,fail_times,salt';
 
     protected array $join = [
         ['role' , 'role.id = user.role_id']
@@ -42,7 +42,6 @@ class User extends BaseModel
      */
     public function validatePassword(string $password = ''): bool
     {
-        $this->salt = generate_rand_str();
         return $this->password === generate_password($password,$this->salt);
     }
 
