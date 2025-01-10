@@ -91,7 +91,7 @@ abstract class BaseController
      * @return Json
      */
 
-    protected function success(array $data = [],string $message = 'success'): Json
+    protected function success(array $data = [],string $message = '成功'): Json
     {
         $result = Result::success($data,$message);
 

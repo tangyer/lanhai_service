@@ -1790,7 +1790,7 @@ web_status = {
 
 /** 弹窗状态码 */
 modal_status = {
-    SUCCESS: "成功",
-    FAIL: "失败",
-    WARNING: "警告"
+    SUCCESS: "success",
+    FAIL: "error",
+    WARNING: "warning"
 };
