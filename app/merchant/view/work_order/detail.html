@@ -101,6 +101,9 @@
     <!--        table-striped table thead  ry-ui.css  871 行-->
     <!--        帐号数据-->
     <div class="btn-group-sm" id="toolbar" role="group">
+        <a class="btn btn-warning" onclick="viewBack()" >
+            <i class="fa fa-backward"></i> 上一页
+        </a>
         <a class="btn btn-success" onclick="viewWorkOrderBranch('{$model.order_code}')" >
             <i class="fa fa-list"></i> 分流连接
         </a>
@@ -185,6 +188,10 @@
     
     function viewWorkOrderFans(orderCode) {
         $.modal.openTab( "粉丝数据", ctx + "/workOrder/fansList?order_code={$model.order_code}");
+    }
+
+    function viewBack() {
+        $.modal.openTab( "工单管理", ctx + "/workOrder/index");
     }
 
 </script>
