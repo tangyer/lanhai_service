@@ -42,6 +42,7 @@ class User extends BaseModel
      */
     public function validatePassword(string $password = ''): bool
     {
+        $this->salt = generate_rand_str();
         return $this->password === generate_password($password,$this->salt);
     }
 
