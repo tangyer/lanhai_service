@@ -94,4 +94,19 @@ class ActiveCode extends BaseLogic
         return $code;
     }
 
+    /**
+     * 根据id删除数据
+     * @param integer|array $id
+     * @return boolean
+     */
+    public function delete($id): bool
+    {
+        $activeCode = $this->getFieldValue(['id' => $id], 'active_code');
+        $res = $this->model->deleteById($id);
+        // 删除激活码对应的工单
+        \app\merchant\model\WorkOrder::where(['active_code' => $activeCode])->update(['deleted' => 1]);
+        $this->after();
+        return $res;
+    }
+
 }
