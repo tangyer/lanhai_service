@@ -6,10 +6,12 @@ use app\common\model\BaseModel;
 /**
  * @mixin \think\Model
  */
-class ResourceType extends BaseModel
+class Language extends BaseModel
 {
 
-     protected string $selectField = 'id,merchant_id,type_name';
+     protected string $selectField = 'lang_name,lang_code';
 
+     
 
+    
 }

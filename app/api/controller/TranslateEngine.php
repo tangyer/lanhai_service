@@ -2,6 +2,7 @@
 declare (strict_types = 1);
 
 namespace app\api\controller;
+use app\common\model\Language;
 use app\common\provider\Result;
 use app\common\traits\Action;
 use think\response\Json;
@@ -20,9 +21,12 @@ class TranslateEngine extends Base
      * 获取所有翻译引擎
      * @return Json
      */
-    public function getAllEngine(): Json
+    public function getAllEngine(\app\api\logic\TranslateEngine $translateEngine): Json
     {
-
+        $result = $translateEngine->getAll();
+        if($result){
+            return $this->success($result->toArray());
+        }
         return $this->success([
             ['id' => 1,'engine_code' => 'google','engine_type' => 'general','engine' => '谷歌'],
             ['id' => 2,'engine_code' => 'baidu','engine_type' => 'general','engine' => '百度'],
@@ -33,8 +37,12 @@ class TranslateEngine extends Base
     }
 
 
-    public function getAllLang(): Json
+    public function getAllLang(\app\api\logic\Language $language): Json
     {
+        $result = $language->getAll();
+        if($result){
+            return $this->success($result->toArray());
+        }
         $data = [
             [
                 'lang_code' => 'en',

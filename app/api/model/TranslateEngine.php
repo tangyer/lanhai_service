@@ -8,5 +8,5 @@ use app\common\model\BaseModel;
  */
 class TranslateEngine extends BaseModel
 {
-     protected string $selectField = 'id,engine_code,engine_name';
+     protected string $selectField = 'id,engine_code,engine_name as engine,engine_type';
 }
