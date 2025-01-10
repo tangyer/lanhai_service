@@ -12,7 +12,7 @@ class User extends BaseModel
 
     protected array $searchField = ['username','realname|like'];
 
-    protected string $selectField = 'id,username,realname,mobile,role.role_name,last_login_time,last_login_ip,status,create_time,fail_times,salt';
+    protected string $selectField = 'id,username,realname,mobile,role.role_name,last_login_time,last_login_ip,status,create_time,fail_times,salt,password';
 
     protected array $join = [
         ['role' , 'role.id = user.role_id']
