@@ -182,6 +182,10 @@ abstract class BaseModel extends Model
         if ($this->softDel){
             $where[$this->softDel] = self::DATA_NORMAL;
         }
+       // 关联查询
+        if ($this->join){
+           return  $this->getQuery($where)->find();
+        }
         if ($model = $this->where($where)->find()) {
             return $this->softDel ? $model->hidden([$this->softDel]) : $model;
         }

@@ -9,7 +9,7 @@ use app\common\model\BaseModel;
 class Resource extends BaseModel
 {
 
-     protected string $selectField = 'id,merchant_id,resource_name,resource_type,content';
+     protected string $selectField = 'id,merchant_id,resource_name,resource_type,content,resource_type.type_name';
 
       protected array $searchField = ['resource_name','resource_type'];
 

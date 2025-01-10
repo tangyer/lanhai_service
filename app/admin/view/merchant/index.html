@@ -58,6 +58,7 @@ $(function() {
         columns:[
             {checkbox:true},
             {field:"merchant_name",title:"商户名称" },
+            {field:"username",title:"登录账户" },
             {field:"platform_type",title:"开通平台" ,formatter:function (value){
                     return $.table.selectDictLabel(sysTransPlatform,value)
                 }},
